@@ -1,0 +1,12 @@
+{
+  "id": "autonomic-loop",
+  "capability": "autonomy",
+  "kind": "script",
+  "description": "The autonomic reflexes hold: core edits mark debt, a green verify clears it, a regression blocks the stop with the failure named, the loop guard prevents spinning, the brief surfaces standing state and stays silent otherwise, and the kill switch silences everything.",
+  "verifier": {
+    "type": "script",
+    "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/autonomic_loop.py",
+    "timeout": 120
+  },
+  "weight": 1.0
+}
