@@ -86,7 +86,9 @@
         "self-model",
         "frontier"
       ],
-      "strict": true
+      "strict": true,
+      "ref": "v1.0.0",
+      "sha": "b1f8db7e3eef1a80974620d1e232feaf3acaeb72"
     }
   ]
 }
