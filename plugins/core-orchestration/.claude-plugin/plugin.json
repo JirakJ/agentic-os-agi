@@ -1,0 +1,14 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin.json",
+  "name": "core-orchestration",
+  "displayName": "Agentic OS — Core Orchestration",
+  "version": "1.0.0",
+  "description": "Authoring and release discipline for the agentic OS: atomic commits per core change, MADR decision records, skill/agent authoring conventions and SemVer release flow.",
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
+  "homepage": "https://jakubjirak.com",
+  "license": "MIT",
+  "keywords": ["adr", "semver", "conventional-commits", "governance", "authoring"]
+}
