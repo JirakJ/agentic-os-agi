@@ -1,0 +1,12 @@
+{
+  "id": "repo-health",
+  "capability": "validation",
+  "kind": "invariant",
+  "description": "The marketplace validates clean: every plugin, skill, agent, hook and decision record.",
+  "verifier": {
+    "type": "exit_zero",
+    "command": ["python3", "${REPO_ROOT}/plugins/core-orchestration/scripts/doctor.py", "--quiet"],
+    "timeout": 30
+  },
+  "weight": 1.0
+}

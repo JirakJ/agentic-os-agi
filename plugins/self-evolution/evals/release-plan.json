@@ -1,0 +1,12 @@
+{
+  "id": "release-plan",
+  "capability": "release",
+  "kind": "script",
+  "description": "The release tool derives a correct SemVer bump from Conventional Commits and produces a valid dry-run plan.",
+  "verifier": {
+    "type": "script",
+    "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/release_plan.py",
+    "timeout": 30
+  },
+  "weight": 1.0
+}

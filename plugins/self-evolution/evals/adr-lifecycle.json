@@ -1,0 +1,12 @@
+{
+  "id": "adr-lifecycle",
+  "capability": "governance",
+  "kind": "script",
+  "description": "The decision-record tool allocates numbers, renders MADR, and maintains supersession chains on both ends.",
+  "verifier": {
+    "type": "script",
+    "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/adr_lifecycle.py",
+    "timeout": 30
+  },
+  "weight": 1.0
+}

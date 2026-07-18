@@ -1,0 +1,12 @@
+{
+  "id": "recall-precision",
+  "capability": "retrieval",
+  "kind": "script",
+  "description": "Hybrid recall ranks the note that answers the query first, and returns nothing for a genuine no-match.",
+  "verifier": {
+    "type": "script",
+    "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/recall_precision.py",
+    "timeout": 45
+  },
+  "weight": 1.0
+}
