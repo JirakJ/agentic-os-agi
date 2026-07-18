@@ -1,0 +1,9 @@
+{
+  "name": "capability-proposal",
+  "version": "1.0.0",
+  "description": "Shape a raw improvement signal into a concrete, evidenced, buildable capability proposal with its own eval, ready for a skill-author to implement under governance.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": ["ADR-0009", "ADR-0010"],
+  "stability": "stable"
+}
