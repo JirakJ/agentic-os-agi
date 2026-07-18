@@ -1,0 +1,12 @@
+{
+  "id": "self-model-accuracy",
+  "capability": "self-knowledge",
+  "kind": "script",
+  "description": "The self-model derives calibrated claims from a scorecard: weak capabilities flagged, strong ones not, thin evidence marked, and coverage reported per plugin.",
+  "verifier": {
+    "type": "script",
+    "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/self_model_accuracy.py",
+    "timeout": 40
+  },
+  "weight": 1.0
+}

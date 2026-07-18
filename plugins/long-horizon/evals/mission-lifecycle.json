@@ -1,0 +1,12 @@
+{
+  "id": "mission-lifecycle",
+  "capability": "autonomy",
+  "kind": "script",
+  "description": "The mission tool holds its lifecycle: create, advance, block with a reason, refuse dishonest completion, resume, complete, and stay silent in the brief when nothing is in flight.",
+  "verifier": {
+    "type": "script",
+    "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/mission_lifecycle.py",
+    "timeout": 40
+  },
+  "weight": 1.0
+}

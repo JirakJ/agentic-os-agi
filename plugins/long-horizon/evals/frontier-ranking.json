@@ -1,0 +1,12 @@
+{
+  "id": "frontier-ranking",
+  "capability": "self-knowledge",
+  "kind": "script",
+  "description": "The frontier ranks by evidence severity: weakness above blocked intent above coverage gaps, every item carries evidence, and controlled-empty inputs yield an empty agenda.",
+  "verifier": {
+    "type": "script",
+    "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/frontier_ranking.py",
+    "timeout": 40
+  },
+  "weight": 1.0
+}
