@@ -1,0 +1,9 @@
+{
+  "name": "vault-recall",
+  "version": "1.0.0",
+  "description": "Hybrid BM25 + vector recall over the Obsidian vault and episodic memory, returning ranked snippets.",
+  "layer": "L4-index",
+  "dependencies": {},
+  "adr": ["ADR-0003", "ADR-0007"],
+  "stability": "stable"
+}
