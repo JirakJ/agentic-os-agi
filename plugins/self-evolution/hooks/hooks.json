@@ -1,0 +1,16 @@
+{
+  "description": "Appends a compact session digest to the experience buffer at session end, precomputing each session's shape for the miner and reflection (ADR-0009). Non-blocking and payload-free.",
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session_digest.py\"",
+            "timeout": 30
+          }
+        ]
+      }
+    ]
+  }
+}
