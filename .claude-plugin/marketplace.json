@@ -6,8 +6,8 @@
     "url": "https://jakubjirak.com"
   },
   "metadata": {
-    "description": "Git-native agentic OS for Claude Code: versioned agents, skills and instructions with hook-enforced governance, MADR decision records, a three-layer memory stack, a verification-gated self-improvement loop, and long-horizon autonomy — durable missions, an evidence-derived self-model and a learning frontier.",
-    "version": "1.2.0"
+    "description": "Git-native agentic OS for Claude Code: versioned agents, skills and instructions with hook-enforced governance, MADR decision records, a three-layer memory stack, a verification-gated self-improvement loop, long-horizon autonomy, and an autonomic layer that makes the whole loop self-triggering through hooks.",
+    "version": "1.3.0"
   },
   "plugins": [
     {
@@ -89,6 +89,20 @@
       "strict": true,
       "ref": "v1.0.0",
       "sha": "b1f8db7e3eef1a80974620d1e232feaf3acaeb72"
+    },
+    {
+      "name": "autonomic-loop",
+      "source": "./plugins/autonomic-loop",
+      "description": "The autonomic nervous system: hook-driven policy that makes the loop self-triggering — core changes are verified before a turn may end (blocking on regression), sessions end by staging mined proposals, and sessions start knowing the system's state. Kill-switchable; capability stays elsewhere.",
+      "category": "workflow",
+      "keywords": [
+        "autonomy",
+        "hooks",
+        "verification",
+        "policy",
+        "self-triggering"
+      ],
+      "strict": true
     }
   ]
 }
