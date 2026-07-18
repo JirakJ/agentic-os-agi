@@ -530,6 +530,99 @@ def test_self_evolution(tmp: Path) -> None:
           all(p["requires_adr"] for p in proposals))
 
 
+def test_long_horizon(tmp: Path) -> None:
+    if VERBOSE:
+        print("\nlong-horizon")
+    LH = ROOT / "plugins" / "long-horizon" / "scripts"
+
+    # --- mission lifecycle as a black box against a temp dir
+    mdir = tmp / "lh-missions"
+
+    def mission(*args: str):
+        return subprocess.run([sys.executable, str(LH / "mission.py"), "--dir", str(mdir), *args],
+                              capture_output=True, text=True, timeout=30)
+
+    created = mission("new", "Test goal", "--objective", "Both steps hold.", "--steps", "one;two",
+                      "--priority", "high")
+    check("mission: creates with steps and id", created.returncode == 0 and "m-0001" in created.stdout)
+    check("mission: refuses completion with open steps", mission("complete", "m-0001").returncode == 1)
+    advanced = mission("step-done", "m-0001", "1", "--note", "evidence")
+    check("mission: advances a step with a note", advanced.returncode == 0 and "evidence" in advanced.stdout)
+    blocked = mission("block", "m-0001", "--on", "an upstream key")
+    check("mission: blocks with a required reason", blocked.returncode == 0)
+    brief = mission("brief")
+    check("mission: brief surfaces the blocker", "BLOCKED" in brief.stdout and "upstream key" in brief.stdout)
+    check("mission: resumes from blocked", mission("resume", "m-0001").returncode == 0)
+    mission("step-done", "m-0001", "2")
+    check("mission: completes when all steps done", mission("complete", "m-0001").returncode == 0)
+    check("mission: brief silent with nothing in flight", mission("brief").stdout.strip() == "")
+    check("mission: ids never reused", "m-0002" in mission("new", "Second").stdout)
+
+    # --- multi-plugin eval discovery: two plugins, each shipping an eval; per-spec root resolution
+    market = tmp / "lh-market"
+    for plugin, eval_id in (("alpha", "alpha-check"), ("beta", "beta-check")):
+        base = market / "plugins" / plugin
+        (base / ".claude-plugin").mkdir(parents=True)
+        (base / ".claude-plugin" / "plugin.json").write_text(
+            json.dumps({"name": plugin, "version": "1.0.0", "description": "x"}))
+        (base / "evals" / "verifiers").mkdir(parents=True)
+        (base / "evals" / "verifiers" / "ok.py").write_text(
+            "import json, sys\n"
+            f"print(json.dumps({{'pass': True, 'score': 1.0, 'detail': '{plugin} verifier ran'}}))\n")
+        (base / "evals" / f"{eval_id}.json").write_text(json.dumps({
+            "id": eval_id, "capability": plugin, "kind": "script", "description": "x",
+            "verifier": {"type": "script",
+                         "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/ok.py"}}))
+    (market / ".claude-plugin").mkdir()
+    (market / ".claude-plugin" / "marketplace.json").write_text('{"name":"t","plugins":[]}')
+
+    env = {**os.environ, "CLAUDE_PLUGIN_ROOT": str(market / "plugins" / "alpha"),
+           "CLAUDE_PLUGIN_DATA": str(tmp / "lh-data")}
+    result = subprocess.run([sys.executable, str(SELF / "evalctl.py"), "--root", str(market),
+                             "--json", "--no-ledger"], capture_output=True, text=True, env=env, timeout=60)
+    card = json.loads(result.stdout)
+    ids = {r["id"] for r in card["results"]}
+    check("evalctl: discovers evals across plugins", ids == {"alpha-check", "beta-check"}, str(ids))
+    check("evalctl: resolves plugin root per spec",
+          all(r["pass"] for r in card["results"]),
+          str([(r["id"], r["detail"]) for r in card["results"] if not r["pass"]]))
+
+    # duplicate eval ids across plugins must be rejected
+    dupe = market / "plugins" / "beta" / "evals" / "dupe.json"
+    dupe.write_text(json.dumps({"id": "alpha-check", "capability": "beta", "kind": "script",
+                                "description": "x",
+                                "verifier": {"type": "script",
+                                             "script": "${CLAUDE_PLUGIN_ROOT}/evals/verifiers/ok.py"}}))
+    clash = subprocess.run([sys.executable, str(SELF / "evalctl.py"), "--root", str(market),
+                            "--json", "--no-ledger"], capture_output=True, text=True, env=env, timeout=60)
+    check("evalctl: rejects duplicate eval ids across plugins",
+          clash.returncode == 2 and "duplicate" in clash.stderr)
+    dupe.unlink()
+
+    # --- frontier ranking on controlled inputs
+    model = tmp / "lh-model.json"
+    model.write_text(json.dumps({
+        "source": "fixture", "regressions": [],
+        "measured": [{"capability": "weakcap", "score": 0.4, "trend": "down", "evals": ["a", "b"],
+                      "weak": True, "thin_evidence": False}],
+        "coverage": [{"plugin": "gapped", "version": "1.0.0", "components": 3, "evaluated": False}],
+        "usage": []}))
+    fdir = tmp / "lh-frontier-missions"
+    subprocess.run([sys.executable, str(LH / "mission.py"), "--dir", str(fdir), "new", "Stalled",
+                    "--steps", "x"], capture_output=True, text=True, timeout=20)
+    subprocess.run([sys.executable, str(LH / "mission.py"), "--dir", str(fdir), "block", "m-0001",
+                    "--on", "capability missing"], capture_output=True, text=True, timeout=20)
+    result = subprocess.run([sys.executable, str(LH / "frontier.py"), "--model", str(model),
+                             "--missions-dir", str(fdir), "--no-mine", "--json", "--root", str(ROOT)],
+                            capture_output=True, text=True, timeout=30)
+    agenda = json.loads(result.stdout)["items"]
+    kinds = [item["kind"] for item in agenda]
+    check("frontier: fuses all three evidence streams",
+          {"weakness", "blocked-intent", "coverage-gap"} <= set(kinds), str(kinds))
+    check("frontier: weakness ranks first", kinds and kinds[0] == "weakness", str(kinds))
+    check("frontier: every item carries evidence", all(item.get("evidence") for item in agenda))
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
@@ -540,6 +633,7 @@ def main() -> int:
         test_retrieval(tmp / "r") if (tmp / "r").mkdir(parents=True, exist_ok=True) or True else None
         test_doctor(tmp)
         test_self_evolution(tmp)
+        test_long_horizon(tmp)
 
     total = len(PASSED) + len(FAILED)
     print(f"\n{'─' * 60}")
