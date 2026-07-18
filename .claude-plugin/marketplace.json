@@ -102,7 +102,9 @@
         "policy",
         "self-triggering"
       ],
-      "strict": true
+      "strict": true,
+      "ref": "v1.0.0",
+      "sha": "4f55acfa9c282ee39244478fa6255c6c8f847d85"
     }
   ]
 }
