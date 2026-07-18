@@ -1,0 +1,11 @@
+{
+  "name": "adr-workflow",
+  "version": "1.0.0",
+  "description": "MADR 4.0.0 decision records: creation, supersession, status lifecycle and three-way linkage to commits and manifests.",
+  "layer": "L1-core",
+  "dependencies": {
+    "commit-discipline": "^1.0.0"
+  },
+  "adr": ["ADR-0005"],
+  "stability": "stable"
+}
