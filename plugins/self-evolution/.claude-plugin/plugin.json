@@ -1,0 +1,18 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin.json",
+  "name": "self-evolution",
+  "displayName": "Agentic OS — Self-Evolution",
+  "version": "1.0.0",
+  "description": "The self-improvement substrate: a capability-eval harness with regression tracking, an experience miner over the audit trail, and a proposal engine that turns recurring patterns into governed capability proposals — verification-gated and adoption-gated by design.",
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
+  "homepage": "https://jakubjirak.com",
+  "license": "MIT",
+  "keywords": ["self-improvement", "evals", "regression", "reflection", "capability-proposal"],
+  "dependencies": {
+    "core-orchestration": "^1.0.0",
+    "governance-gates": "^1.0.0"
+  }
+}

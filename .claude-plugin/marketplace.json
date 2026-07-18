@@ -6,8 +6,8 @@
     "url": "https://jakubjirak.com"
   },
   "metadata": {
-    "description": "Git-native agentic OS for Claude Code: versioned agents, skills and instructions with hook-enforced governance, MADR decision records and a three-layer memory stack.",
-    "version": "1.0.0"
+    "description": "Git-native agentic OS for Claude Code: versioned agents, skills and instructions with hook-enforced governance, MADR decision records, a three-layer memory stack, and a verification-gated self-improvement loop.",
+    "version": "1.1.0"
   },
   "plugins": [
     {
@@ -57,6 +57,20 @@
       "strict": true,
       "ref": "v1.0.0",
       "sha": "82d3bc57a87e8e31433de2336a9087ec6d9db034"
+    },
+    {
+      "name": "self-evolution",
+      "source": "./plugins/self-evolution",
+      "description": "The self-improvement substrate: a capability-eval harness with regression tracking, an experience miner over the audit trail, and a proposal engine that turns recurring patterns into governed capability proposals.",
+      "category": "workflow",
+      "keywords": [
+        "self-improvement",
+        "evals",
+        "regression",
+        "reflection",
+        "capability-proposal"
+      ],
+      "strict": true
     }
   ]
 }
