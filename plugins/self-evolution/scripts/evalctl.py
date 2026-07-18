@@ -102,34 +102,70 @@ class Scorecard:
         return {r.id: r.score for r in self.results}
 
 
-def load_specs(root: Path, only: str | None) -> list[dict]:
-    eval_dir = plugin_root() / "evals"
-    specs: list[dict] = []
-    for path in sorted(eval_dir.glob("*.json")):
-        if path.name in {"baseline.json"}:
+def owning_plugin_root(spec_path: Path) -> Path:
+    """The plugin that ships this spec — the nearest ancestor with .claude-plugin/plugin.json.
+    Falls back to the harness's own plugin root for specs that live outside any plugin (fixtures)."""
+    for candidate in spec_path.resolve().parents:
+        if (candidate / ".claude-plugin" / "plugin.json").is_file():
+            return candidate
+    return plugin_root()
+
+
+def load_specs(root: Path, only: str | None) -> list[tuple[dict, Path]]:
+    """Discover eval specs across the whole marketplace.
+
+    Every plugin may ship evals under <plugin>/evals/*.json — the verification substrate is one
+    suite over all plugins, so a capability's eval lives with the capability, not with the harness
+    (ADR-0008). The harness's own evals dir is scanned too, which keeps fixture setups (a bare
+    CLAUDE_PLUGIN_ROOT outside any marketplace) working unchanged.
+    """
+    seen: set[Path] = set()
+    eval_dirs: list[Path] = []
+    plugins_dir = root / "plugins"
+    if plugins_dir.is_dir():
+        for manifest in sorted(plugins_dir.glob("*/.claude-plugin/plugin.json")):
+            eval_dirs.append(manifest.parents[1] / "evals")
+    eval_dirs.append(plugin_root() / "evals")
+
+    specs: list[tuple[dict, Path]] = []
+    ids: dict[str, Path] = {}
+    for eval_dir in eval_dirs:
+        if not eval_dir.is_dir():
             continue
-        try:
-            spec = json.loads(path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as exc:
-            print(f"evalctl: {path.name} is not valid JSON: {exc}", file=sys.stderr)
-            sys.exit(2)
-        if not spec.get("id") or not spec.get("verifier"):
-            print(f"evalctl: {path.name} missing id or verifier", file=sys.stderr)
-            sys.exit(2)
-        if only and spec["id"] != only:
-            continue
-        specs.append(spec)
+        for path in sorted(eval_dir.glob("*.json")):
+            resolved = path.resolve()
+            if resolved in seen or path.name == "baseline.json":
+                continue
+            seen.add(resolved)
+            try:
+                spec = json.loads(path.read_text(encoding="utf-8"))
+            except json.JSONDecodeError as exc:
+                print(f"evalctl: {path} is not valid JSON: {exc}", file=sys.stderr)
+                sys.exit(2)
+            if not spec.get("id") or not spec.get("verifier"):
+                print(f"evalctl: {path} missing id or verifier", file=sys.stderr)
+                sys.exit(2)
+            if spec["id"] in ids:
+                print(f"evalctl: duplicate eval id '{spec['id']}' in {path} and {ids[spec['id']]} "
+                      f"— ids must be unique across plugins", file=sys.stderr)
+                sys.exit(2)
+            ids[spec["id"]] = path
+            if only and spec["id"] != only:
+                continue
+            specs.append((spec, path))
     if only and not specs:
         print(f"evalctl: no eval with id '{only}'", file=sys.stderr)
         sys.exit(2)
     return specs
 
 
-def resolve(token: str, root: Path) -> str:
-    return token.replace("${CLAUDE_PLUGIN_ROOT}", str(plugin_root())).replace("${REPO_ROOT}", str(root))
+def resolve(token: str, root: Path, spec_plugin: Path) -> str:
+    """${CLAUDE_PLUGIN_ROOT} resolves to the plugin that OWNS the spec, so each plugin's
+    verifiers reference their own tree; ${REPO_ROOT} is the marketplace root."""
+    return token.replace("${CLAUDE_PLUGIN_ROOT}", str(spec_plugin)).replace("${REPO_ROOT}", str(root))
 
 
-def run_verifier(spec: dict, root: Path, artifact: str | None) -> EvalResult:
+def run_verifier(spec: dict, root: Path, artifact: str | None, spec_plugin: Path) -> EvalResult:
     verifier = spec["verifier"]
     vtype = verifier.get("type")
     started = time.perf_counter()
@@ -137,7 +173,7 @@ def run_verifier(spec: dict, root: Path, artifact: str | None) -> EvalResult:
     passed, score, detail = False, 0.0, ""
     try:
         if vtype == "exit_zero":
-            command = [resolve(t, root) for t in verifier["command"]]
+            command = [resolve(t, root, spec_plugin) for t in verifier["command"]]
             result = subprocess.run(command, cwd=root, capture_output=True, text=True,
                                     timeout=verifier.get("timeout", 60))
             passed = result.returncode == 0
@@ -145,8 +181,8 @@ def run_verifier(spec: dict, root: Path, artifact: str | None) -> EvalResult:
             detail = "" if passed else (result.stderr or result.stdout).strip().splitlines()[-1:][0] if (result.stderr or result.stdout).strip() else f"exit {result.returncode}"
 
         elif vtype in ("script", "artifact"):
-            script = resolve(verifier["script"], root)
-            command = [sys.executable, script, *[resolve(a, root) for a in verifier.get("args", [])]]
+            script = resolve(verifier["script"], root, spec_plugin)
+            command = [sys.executable, script, *[resolve(a, root, spec_plugin) for a in verifier.get("args", [])]]
             if vtype == "artifact":
                 if not artifact:
                     return EvalResult(spec["id"], spec.get("capability", "?"), False, 0.0,
@@ -202,8 +238,8 @@ def git_sha(root: Path) -> str:
 
 def run_suite(root: Path, only: str | None, artifact: str | None) -> Scorecard:
     card = Scorecard(sha=git_sha(root), ts=time.strftime("%Y-%m-%dT%H:%M:%S"))
-    for spec in load_specs(root, only):
-        card.results.append(run_verifier(spec, root, artifact))
+    for spec, spec_path in load_specs(root, only):
+        card.results.append(run_verifier(spec, root, artifact, owning_plugin_root(spec_path)))
     return card
 
 
