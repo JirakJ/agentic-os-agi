@@ -1,0 +1,38 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
+  "name": "agentic-os",
+  "owner": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
+  "metadata": {
+    "description": "Git-native agentic OS for Claude Code: versioned agents, skills and instructions with hook-enforced governance, MADR decision records and a three-layer memory stack.",
+    "version": "1.0.0"
+  },
+  "plugins": [
+    {
+      "name": "core-orchestration",
+      "source": "./plugins/core-orchestration",
+      "description": "Authoring and release discipline for the agentic OS: atomic commits per core change, MADR decision records, skill/agent authoring conventions and SemVer release flow.",
+      "category": "workflow",
+      "keywords": ["adr", "semver", "conventional-commits", "governance", "authoring"],
+      "strict": true
+    },
+    {
+      "name": "governance-gates",
+      "source": "./plugins/governance-gates",
+      "description": "Hook-enforced quality gates: secret guard, manifest and SemVer validation, atomic-commit enforcement, ADR gate and a structured audit trail of every tool call.",
+      "category": "security",
+      "keywords": ["hooks", "audit", "secrets", "validation", "compliance"],
+      "strict": true
+    },
+    {
+      "name": "memory-obsidian",
+      "source": "./plugins/memory-obsidian",
+      "description": "Three-layer memory: Obsidian vault as the human knowledge base, a local SQLite FTS5 + sqlite-vec hybrid retrieval index, and durable session memory captured at session end.",
+      "category": "knowledge",
+      "keywords": ["obsidian", "memory", "rag", "sqlite-vec", "retrieval"],
+      "strict": true
+    }
+  ]
+}

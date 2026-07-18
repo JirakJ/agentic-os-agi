@@ -1,0 +1,41 @@
+name: validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  doctor:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # release.py --status needs tags
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate manifests, skills, hooks and decision records
+        run: python3 plugins/core-orchestration/scripts/doctor.py
+
+      - name: Run the test suite
+        run: python3 tests/run_tests.py
+
+      - name: Report version/tag/pin drift
+        run: python3 plugins/core-orchestration/scripts/release.py --status
+
+      - name: Check commit hygiene on the PR range
+        if: github.event_name == 'pull_request'
+        run: |
+          # The changelog is derived from these messages — a bad one is a permanent bad release note.
+          bad=0
+          while read -r sha; do
+            subject=$(git log -1 --pretty=%s "$sha")
+            if ! echo "$subject" | grep -qE '^(feat|fix|refactor|perf|docs|test|chore|revert)(\([a-z0-9/-]+\))?!?: .+'; then
+              echo "::error::not a Conventional Commit: $subject"
+              bad=1
+            fi
+          done < <(git rev-list ${{ github.event.pull_request.base.sha }}..HEAD)
+          exit $bad

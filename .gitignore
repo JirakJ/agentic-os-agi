@@ -1,0 +1,27 @@
+# Derived retrieval index — rebuildable from the vault and memory/ (ADR-0003).
+# If this were committed it would stop being a cache and start being state.
+.index/
+*.db
+*.db-wal
+*.db-shm
+*.sqlite3
+
+# Runtime audit trail and session ledgers live in ${CLAUDE_PLUGIN_DATA}, never in the repo.
+audit/
+sessions/
+
+__pycache__/
+*.py[cod]
+.venv/
+venv/
+
+.DS_Store
+.idea/
+.vscode/
+
+# Never. The secret guard blocks reads; staging is on you.
+.env
+.env.*
+!.env.example
+*.pem
+*.key
