@@ -4,8 +4,9 @@
 PY      := python3
 SCRIPTS := plugins/core-orchestration/scripts
 MEMORY  := plugins/memory-obsidian/scripts
+EVOLVE  := plugins/self-evolution/scripts
 
-.PHONY: help doctor test adr release status index recall install clean
+.PHONY: help doctor test adr release status index recall evals evolve install clean
 
 help:
 	@echo "doctor    validate every plugin, skill, agent, hook and decision record"
@@ -15,6 +16,8 @@ help:
 	@echo "release   cut a release                   (make release P=plugin B=minor)"
 	@echo "index     refresh the retrieval index     (make index V=~/Vault)"
 	@echo "recall    query the index                 (make recall Q='query')"
+	@echo "evals     run the capability-eval suite, report regression vs baseline"
+	@echo "evolve    mine experience, generate ranked capability proposals"
 	@echo "install   register this marketplace with Claude Code"
 	@echo "clean     drop derived caches"
 
@@ -44,6 +47,12 @@ index:
 recall:
 	@test -n "$(Q)" || { echo "usage: make recall Q='what did I decide about X'"; exit 2; }
 	@$(PY) $(MEMORY)/recall.py "$(Q)"
+
+evals:
+	@$(PY) $(EVOLVE)/evalctl.py $(if $(E),--eval $(E),)
+
+evolve:
+	@$(PY) $(EVOLVE)/propose.py $(if $(N),--top $(N),)
 
 install:
 	@claude plugin marketplace add .
