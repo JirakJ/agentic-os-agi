@@ -1,0 +1,26 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin.json",
+  "name": "memory-obsidian",
+  "displayName": "Agentic OS — Memory & Obsidian",
+  "version": "1.0.0",
+  "description": "Three-layer memory: Obsidian vault as the human knowledge base, a local SQLite FTS5 + sqlite-vec hybrid retrieval index, and durable session memory captured at session end.",
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
+  "homepage": "https://jakubjirak.com",
+  "license": "MIT",
+  "keywords": ["obsidian", "memory", "rag", "sqlite-vec", "retrieval"],
+  "userConfig": {
+    "vaultPath": {
+      "type": "string",
+      "description": "Absolute path to the Obsidian vault used as the knowledge base (L3).",
+      "default": "~/Documents/Vault"
+    },
+    "captureFolder": {
+      "type": "string",
+      "description": "Vault-relative folder where session captures are written.",
+      "default": "10-Inbox/agent-capture"
+    }
+  }
+}
