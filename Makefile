@@ -5,8 +5,9 @@ PY      := python3
 SCRIPTS := plugins/core-orchestration/scripts
 MEMORY  := plugins/memory-obsidian/scripts
 EVOLVE  := plugins/self-evolution/scripts
+HORIZON := plugins/long-horizon/scripts
 
-.PHONY: help doctor test adr release status index recall evals evolve install clean
+.PHONY: help doctor test adr release status index recall evals evolve missions frontier install clean
 
 help:
 	@echo "doctor    validate every plugin, skill, agent, hook and decision record"
@@ -18,6 +19,8 @@ help:
 	@echo "recall    query the index                 (make recall Q='query')"
 	@echo "evals     run the capability-eval suite, report regression vs baseline"
 	@echo "evolve    mine experience, generate ranked capability proposals"
+	@echo "missions  list missions in flight (goal state that outlives sessions)"
+	@echo "frontier  the self-model + what the system should learn next"
 	@echo "install   register this marketplace with Claude Code"
 	@echo "clean     drop derived caches"
 
@@ -53,6 +56,12 @@ evals:
 
 evolve:
 	@$(PY) $(EVOLVE)/propose.py $(if $(N),--top $(N),)
+
+missions:
+	@$(PY) $(HORIZON)/mission.py list
+
+frontier:
+	@$(PY) $(HORIZON)/frontier.py
 
 install:
 	@claude plugin marketplace add .

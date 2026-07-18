@@ -2,8 +2,9 @@
 
 A Git-native orchestration layer for [Claude Code](https://docs.claude.com/en/docs/claude-code):
 versioned agents, skills and instructions, hook-enforced governance, MADR decision records, a
-three-layer memory stack, and a verification-gated self-improvement loop — built entirely from
-Claude Code primitives, with no direct LLM API calls.
+three-layer memory stack, a verification-gated self-improvement loop, and long-horizon autonomy
+— durable missions, an evidence-derived self-model and a learning frontier — built entirely
+from Claude Code primitives, with no direct LLM API calls.
 
 The premise: your agent fleet's behaviour is text, that text changes constantly, and every change
 should be attributable to a diff and revertible in isolation. Git is the source of truth; hooks
@@ -14,7 +15,7 @@ compound capability under governance.
 
 ## What's in it
 
-Three plugins, each independently versioned and installable:
+Five plugins, each independently versioned and installable:
 
 | Plugin | What it does |
 |---|---|
@@ -22,9 +23,11 @@ Three plugins, each independently versioned and installable:
 | **governance-gates** | Hook-enforced quality gates — a secret guard, manifest/SemVer validation, atomic-commit and ADR enforcement at turn's end, and an append-only audit trail of every tool call. Pure-Python hooks, zero dependencies. |
 | **memory-obsidian** | Three-layer memory — an Obsidian vault as the knowledge base, a local SQLite FTS5 + sqlite-vec hybrid retrieval index, and durable session memory. Recall returns snippets, not whole notes. |
 | **self-evolution** | A verification-gated self-improvement loop — a capability-eval harness with regression tracking, an experience miner over the audit trail, and a proposal engine that turns recurring patterns into governed capability proposals. Ships `evalctl.py`, `mine.py`, `propose.py`. |
+| **long-horizon** | Long-horizon autonomy — durable missions that outlive sessions with structural resumability at session start, an evidence-derived capability self-model, and a learning frontier ordering what to learn next. Ships `mission.py`, `selfmodel.py`, `frontier.py`. |
 
-Twelve skills, four subagents, eight slash commands, six hooks, ten decision records — all
-validated, all tested end-to-end against real payloads and a real git repo.
+Fourteen skills, five subagents, ten slash commands, seven hooks, thirteen decision records and
+eight capability evals — all validated, all tested end-to-end against real payloads and a real
+git repo.
 
 ## Install
 
@@ -40,11 +43,13 @@ claude plugin install core-orchestration@agentic-os
 claude plugin install governance-gates@agentic-os
 claude plugin install memory-obsidian@agentic-os
 claude plugin install self-evolution@agentic-os
+claude plugin install long-horizon@agentic-os
 ```
 
 `governance-gates` depends on `core-orchestration` (it calls `doctor.py`); `self-evolution` depends
-on both (it evaluates the release tooling and mines the audit trail). Claude Code resolves and
-installs dependencies automatically.
+on both (it evaluates the release tooling and mines the audit trail); `long-horizon` depends on all
+three (missions feed the frontier, which reads the eval suite and the miner). Claude Code resolves
+and installs dependencies automatically.
 
 Verify the install:
 
@@ -103,6 +108,8 @@ governance adopts through a normal ADR and atomic commit.
 ```bash
 /evals              # run the capability suite; a drop below baseline is a revert signal
 /evolve             # mine experience and generate ranked capability proposals
+/mission            # durable goals that outlive sessions — resumable, blockable, honest to close
+/frontier           # the self-model and the evidence-ordered answer to "what should we learn next"
 ```
 
 The ordering is deliberate and non-negotiable (ADR-0008): verification exists *before*
@@ -111,6 +118,18 @@ random walk. And the loop proposes rather than auto-merges (ADR-0010) — the on
 modifying core logic, always has a gate. This is the governance layer paying off: ADRs justify
 self-modifications, atomic commits make them individually revertible, and the audit trail is the
 raw material the loop learns from.
+
+## Long-horizon autonomy
+
+`long-horizon` removes the hardest ceiling — the context window as the bound on how far a goal
+can reach. **Missions** are durable, git-tracked goal state (ADR-0011): decomposed into
+session-sized verifiable steps, injected as a brief at session start so a fresh session resumes
+cold, refusing dishonest completion by construction. The **self-model** (ADR-0012) derives what
+the system can actually do — from eval scores, the inventory, and the audit trail, never from
+assertion — and reports *measured*, *unmeasured* and *used* as three distinct claims. The
+**frontier** (ADR-0013) fuses the self-model, blocked missions and mined friction into an
+evidence-ordered learning agenda: weakness > blocked intent > coverage gaps > friction. The
+frontier orders; the loop's gates still decide. Vision enters as a mission, not a frontier edit.
 
 ## Working in the repo
 
