@@ -15,24 +15,48 @@
       "source": "./plugins/core-orchestration",
       "description": "Authoring and release discipline for the agentic OS: atomic commits per core change, MADR decision records, skill/agent authoring conventions and SemVer release flow.",
       "category": "workflow",
-      "keywords": ["adr", "semver", "conventional-commits", "governance", "authoring"],
-      "strict": true
+      "keywords": [
+        "adr",
+        "semver",
+        "conventional-commits",
+        "governance",
+        "authoring"
+      ],
+      "strict": true,
+      "ref": "v1.0.0",
+      "sha": "82d3bc57a87e8e31433de2336a9087ec6d9db034"
     },
     {
       "name": "governance-gates",
       "source": "./plugins/governance-gates",
       "description": "Hook-enforced quality gates: secret guard, manifest and SemVer validation, atomic-commit enforcement, ADR gate and a structured audit trail of every tool call.",
       "category": "security",
-      "keywords": ["hooks", "audit", "secrets", "validation", "compliance"],
-      "strict": true
+      "keywords": [
+        "hooks",
+        "audit",
+        "secrets",
+        "validation",
+        "compliance"
+      ],
+      "strict": true,
+      "ref": "v1.0.0",
+      "sha": "82d3bc57a87e8e31433de2336a9087ec6d9db034"
     },
     {
       "name": "memory-obsidian",
       "source": "./plugins/memory-obsidian",
       "description": "Three-layer memory: Obsidian vault as the human knowledge base, a local SQLite FTS5 + sqlite-vec hybrid retrieval index, and durable session memory captured at session end.",
       "category": "knowledge",
-      "keywords": ["obsidian", "memory", "rag", "sqlite-vec", "retrieval"],
-      "strict": true
+      "keywords": [
+        "obsidian",
+        "memory",
+        "rag",
+        "sqlite-vec",
+        "retrieval"
+      ],
+      "strict": true,
+      "ref": "v1.0.0",
+      "sha": "82d3bc57a87e8e31433de2336a9087ec6d9db034"
     }
   ]
 }
