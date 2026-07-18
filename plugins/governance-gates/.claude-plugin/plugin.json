@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin.json",
+  "name": "governance-gates",
+  "displayName": "Agentic OS — Governance Gates",
+  "version": "1.0.0",
+  "description": "Hook-enforced quality gates: secret guard, manifest and SemVer validation, atomic-commit enforcement, ADR gate and a structured audit trail of every tool call.",
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
+  "homepage": "https://jakubjirak.com",
+  "license": "MIT",
+  "keywords": ["hooks", "audit", "secrets", "validation", "compliance"],
+  "dependencies": {
+    "core-orchestration": "^1.0.0"
+  }
+}
