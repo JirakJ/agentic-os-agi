@@ -1,0 +1,19 @@
+{
+  "$schema": "https://json.schemastore.org/claude-code-plugin.json",
+  "name": "long-horizon",
+  "displayName": "Agentic OS — Long Horizon",
+  "version": "1.0.0",
+  "description": "Long-horizon autonomy: durable missions that outlive sessions with structural resumability, an evidence-derived capability self-model, and a learning frontier that orders what the system should learn next.",
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
+  "homepage": "https://jakubjirak.com",
+  "license": "MIT",
+  "keywords": ["missions", "long-horizon", "autonomy", "self-model", "frontier"],
+  "dependencies": {
+    "core-orchestration": "^1.0.0",
+    "governance-gates": "^1.0.0",
+    "self-evolution": "^1.1.0"
+  }
+}

@@ -6,8 +6,8 @@
     "url": "https://jakubjirak.com"
   },
   "metadata": {
-    "description": "Git-native agentic OS for Claude Code: versioned agents, skills and instructions with hook-enforced governance, MADR decision records, a three-layer memory stack, and a verification-gated self-improvement loop.",
-    "version": "1.1.0"
+    "description": "Git-native agentic OS for Claude Code: versioned agents, skills and instructions with hook-enforced governance, MADR decision records, a three-layer memory stack, a verification-gated self-improvement loop, and long-horizon autonomy — durable missions, an evidence-derived self-model and a learning frontier.",
+    "version": "1.2.0"
   },
   "plugins": [
     {
@@ -73,6 +73,20 @@
       "strict": true,
       "ref": "v1.1.0",
       "sha": "bd14f1dd3f25af3cfb4afc4dfe4628e35761e886"
+    },
+    {
+      "name": "long-horizon",
+      "source": "./plugins/long-horizon",
+      "description": "Long-horizon autonomy: durable missions that outlive sessions with structural resumability at session start, an evidence-derived capability self-model, and a learning frontier that orders what the system should learn next.",
+      "category": "workflow",
+      "keywords": [
+        "missions",
+        "long-horizon",
+        "autonomy",
+        "self-model",
+        "frontier"
+      ],
+      "strict": true
     }
   ]
 }
