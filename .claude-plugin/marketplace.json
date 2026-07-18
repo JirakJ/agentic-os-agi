@@ -71,8 +71,8 @@
         "capability-proposal"
       ],
       "strict": true,
-      "ref": "v1.0.0",
-      "sha": "29bbe29adf62fb002e5e44315ceb2fe2037cd1a0"
+      "ref": "v1.1.0",
+      "sha": "bd14f1dd3f25af3cfb4afc4dfe4628e35761e886"
     }
   ]
 }
