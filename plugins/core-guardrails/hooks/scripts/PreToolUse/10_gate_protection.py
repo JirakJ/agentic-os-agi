@@ -28,7 +28,7 @@ def main() -> None:
         f"gate-protection: '{path}' is a protected guardrail file. Editing gate "
         "configuration requires explicit human approval: ask the user to run /gate-unlock "
         "(valid 10 minutes), then retry. Changes to gates also require an ADR "
-        "(docs/adr/) per the governance policy."
+        "(adr/) per the governance policy."
     )
 
 if __name__ == "__main__":

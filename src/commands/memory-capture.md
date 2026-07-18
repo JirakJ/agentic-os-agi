@@ -5,7 +5,7 @@ Capture durable knowledge from this session into the vault (JJ_VAULT_ROOT, defau
 1. Summarize: decisions made, blockers hit, root causes, next steps (max 10 bullets).
 2. Append to today's `10-daily/YYYY-MM-DD.md` (create from `_templates/daily.md` if missing).
 3. If a durable decision was made, create `20-decisions/ADR-linked or decision note` using
-   `_templates/decision.md`; propose a matching MADR ADR in docs/adr/ when it changes the OS.
+   `_templates/decision.md`; propose a matching MADR ADR in adr/ when it changes the OS.
 4. If friction with a gate or skill occurred, append a `30-retros/` note from
    `_templates/retro.md` - retros feed skill-forge and guardrail-forge.
 Prefer the obsidian MCP server; fall back to direct file writes in the vault checkout.

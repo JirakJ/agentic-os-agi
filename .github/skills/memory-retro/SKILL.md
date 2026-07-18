@@ -20,5 +20,5 @@ Retros are how the OS learns. Output = one `30-retros/` note + one routed action
 4. Route the action immediately:
    - skill-forge -> update/create the skill now (follow skill-forge procedure).
    - guardrail-forge -> tune allowlist/gate now (follow guardrail-forge procedure).
-   - adr -> draft the MADR ADR in docs/adr/ and link it.
+   - adr -> draft the MADR ADR in adr/ and link it.
 5. Link the retro from today's daily note. One retro = one routed action, verified done.

@@ -18,7 +18,7 @@ Claude Code captures automatically via SessionEnd hooks; this skill is the *expl
    from `_templates/daily.md` if missing).
 3. Durable decision made? Create `20-decisions/YYYY-MM-DD-slug.md` from
    `_templates/decision.md` (status: accepted). If it changes the Agentic OS itself, also
-   propose a MADR ADR in `docs/adr/`.
+   propose a MADR ADR in `adr/`.
 4. Gate/skill friction occurred? Add `30-retros/YYYY-MM-DD-slug.md` from
    `_templates/retro.md` - retros are the input queue for skill-forge and guardrail-forge.
 5. New person/client/system encountered? Upsert `40-entities/<name>.md` and wiki-link it.

@@ -32,7 +32,7 @@ Meta-skill: evolve the guardrail layer safely. Gates are code + config under
    (`x-expect: deny|allow|block`). Run `bash scripts/hook-dryrun-harness.sh` - must PASS.
 6. Add a pytest in `plugins/core-guardrails/tests/` for the decision function.
 7. Run `bash scripts/preflight.sh`; commit via the normal gate. Document the gate's intent
-   and FP budget in an ADR (`docs/adr/`).
+   and FP budget in an ADR (`adr/`).
 
 ## Tuning a false positive
 1. Reproduce: find the `gate_fired` record in the telemetry queue (JJ_VAULT_ROOT/70-telemetry).

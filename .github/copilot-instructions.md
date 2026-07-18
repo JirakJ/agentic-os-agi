@@ -24,7 +24,7 @@ coding agent/CLI/IDE agent mode, and any AGENTS.md-aware tool).
 ## Memory
 - Long-term memory lives in the Obsidian vault (two-tier memory: this git repo = executable
   assets; vault = knowledge). Read it via the memory-fabric MCP server; write session
-  learnings via the memory-capture skill. Durable decisions go to 20-decisions/ + docs/adr/.
+  learnings via the memory-capture skill. Durable decisions go to 20-decisions/ + adr/.
 
 ## Commit and release conventions
 - Conventional Commits: `feat:`, `fix:`, `refactor:`, `docs:`, `test:`, `chore:`;
