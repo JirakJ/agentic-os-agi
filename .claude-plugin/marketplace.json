@@ -70,7 +70,9 @@
         "reflection",
         "capability-proposal"
       ],
-      "strict": true
+      "strict": true,
+      "ref": "v1.0.0",
+      "sha": "29bbe29adf62fb002e5e44315ceb2fe2037cd1a0"
     }
   ]
 }
