@@ -1,14 +1,16 @@
 # Agentic OS
 
 A Git-native orchestration layer for [Claude Code](https://docs.claude.com/en/docs/claude-code):
-versioned agents, skills and instructions, hook-enforced governance, MADR decision records, and a
-three-layer memory stack — built entirely from Claude Code primitives, with no direct LLM API
-calls.
+versioned agents, skills and instructions, hook-enforced governance, MADR decision records, a
+three-layer memory stack, and a verification-gated self-improvement loop — built entirely from
+Claude Code primitives, with no direct LLM API calls.
 
 The premise: your agent fleet's behaviour is text, that text changes constantly, and every change
 should be attributable to a diff and revertible in isolation. Git is the source of truth; hooks
-make the discipline structural rather than aspirational; decision records capture *why*. What you
-get is an agent layer you can roll back one component at a time and audit after the fact.
+make the discipline structural rather than aspirational; decision records capture *why*; capability
+evals make change measurable so the system can improve itself without walking into degradation. What
+you get is an agent layer you can roll back one component at a time, audit after the fact, and let
+compound capability under governance.
 
 ## What's in it
 
@@ -19,8 +21,9 @@ Three plugins, each independently versioned and installable:
 | **core-orchestration** | Authoring and release discipline — atomic commits per component, MADR decision records, skill/agent conventions, SemVer release flow with SHA-pinned rollback. Ships `doctor.py`, `adr_new.py`, `release.py`. |
 | **governance-gates** | Hook-enforced quality gates — a secret guard, manifest/SemVer validation, atomic-commit and ADR enforcement at turn's end, and an append-only audit trail of every tool call. Pure-Python hooks, zero dependencies. |
 | **memory-obsidian** | Three-layer memory — an Obsidian vault as the knowledge base, a local SQLite FTS5 + sqlite-vec hybrid retrieval index, and durable session memory. Recall returns snippets, not whole notes. |
+| **self-evolution** | A verification-gated self-improvement loop — a capability-eval harness with regression tracking, an experience miner over the audit trail, and a proposal engine that turns recurring patterns into governed capability proposals. Ships `evalctl.py`, `mine.py`, `propose.py`. |
 
-Nine skills, three subagents, six slash commands, five hooks, seven decision records — all
+Twelve skills, four subagents, eight slash commands, six hooks, ten decision records — all
 validated, all tested end-to-end against real payloads and a real git repo.
 
 ## Install
@@ -36,10 +39,12 @@ claude plugin marketplace add .
 claude plugin install core-orchestration@agentic-os
 claude plugin install governance-gates@agentic-os
 claude plugin install memory-obsidian@agentic-os
+claude plugin install self-evolution@agentic-os
 ```
 
-`governance-gates` depends on `core-orchestration` (it calls `doctor.py`); Claude Code resolves and
-installs it automatically.
+`governance-gates` depends on `core-orchestration` (it calls `doctor.py`); `self-evolution` depends
+on both (it evaluates the release tooling and mines the audit trail). Claude Code resolves and
+installs dependencies automatically.
 
 Verify the install:
 
@@ -86,6 +91,26 @@ The design decisions behind each layer are in [`adr/`](adr/) — start with
 [ADR-0001](adr/0001-git-as-single-source-of-truth-for-core-logic.md) (why Git owns core logic and
 Obsidian owns knowledge) and [ADR-0002](adr/0002-plugin-as-the-unit-of-versioning-and-rollback.md)
 (why the plugin is the unit of rollback).
+
+## The self-improvement loop
+
+`self-evolution` closes a loop the other three plugins make safe: **sense → reflect → propose →
+verify → adopt**. It mines the audit trail (governance's experience buffer) for recurring
+workflows, failures and couplings, fuses them with eval regressions, and produces ranked capability
+proposals — which the `skill-author` agent implements, `evalctl.py` verifies against a baseline, and
+governance adopts through a normal ADR and atomic commit.
+
+```bash
+/evals              # run the capability suite; a drop below baseline is a revert signal
+/evolve             # mine experience and generate ranked capability proposals
+```
+
+The ordering is deliberate and non-negotiable (ADR-0008): verification exists *before*
+self-authoring, because a system that modifies itself without measuring the result is taking a
+random walk. And the loop proposes rather than auto-merges (ADR-0010) — the one irreversible step,
+modifying core logic, always has a gate. This is the governance layer paying off: ADRs justify
+self-modifications, atomic commits make them individually revertible, and the audit trail is the
+raw material the loop learns from.
 
 ## Working in the repo
 
