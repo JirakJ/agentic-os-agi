@@ -623,6 +623,105 @@ def test_long_horizon(tmp: Path) -> None:
     check("frontier: every item carries evidence", all(item.get("evidence") for item in agenda))
 
 
+def test_autonomic_loop(tmp: Path) -> None:
+    if VERBOSE:
+        print("\nautonomic-loop")
+    HOOKS = ROOT / "plugins" / "autonomic-loop" / "hooks" / "scripts"
+
+    # temp market with a copied eval harness and a toggleable mini suite — no recursion into
+    # the real suite, and a regression can be forced by deleting the marker file
+    market = tmp / "au-market"
+    (market / ".claude-plugin").mkdir(parents=True)
+    (market / ".claude-plugin" / "marketplace.json").write_text('{"name":"t","plugins":[]}')
+    se = market / "plugins" / "self-evolution"
+    (se / ".claude-plugin").mkdir(parents=True)
+    (se / ".claude-plugin" / "plugin.json").write_text(
+        json.dumps({"name": "self-evolution", "version": "1.1.0", "description": "x"}))
+    (se / "scripts").mkdir()
+    shutil.copy2(SELF / "evalctl.py", se / "scripts" / "evalctl.py")
+    (se / "evals").mkdir()
+    (se / "evals" / "always-pass.json").write_text(json.dumps({
+        "id": "always-pass", "capability": "control", "kind": "invariant", "description": "x",
+        "verifier": {"type": "exit_zero", "command": ["python3", "-c", "raise SystemExit(0)"]}}))
+    (se / "evals" / "toggle.json").write_text(json.dumps({
+        "id": "toggle", "capability": "control", "kind": "invariant", "description": "x",
+        "verifier": {"type": "exit_zero", "command": [
+            "python3", "-c",
+            "import os,sys; sys.exit(0 if os.path.exists(os.path.join('${REPO_ROOT}','MARKER')) else 1)"]}}))
+    (se / "evals" / "baseline.json").write_text(json.dumps({
+        "ts": "t", "sha": "t", "aggregate": 1.0,
+        "scores": {"always-pass": 1.0, "toggle": 1.0}, "by_capability": {"control": 1.0}}))
+    (market / "MARKER").write_text("present")
+    data = tmp / "au-data"
+
+    def hook(script: str, payload: dict, extra: dict | None = None) -> tuple[int, str]:
+        env = {**os.environ, "CLAUDE_PLUGIN_ROOT": str(ROOT / "plugins" / "autonomic-loop"),
+               "CLAUDE_PLUGIN_DATA": str(data), **(extra or {})}
+        env.pop("AGENTIC_OS_AUTONOMIC", None)
+        if extra and "AGENTIC_OS_AUTONOMIC" in extra:
+            env["AGENTIC_OS_AUTONOMIC"] = extra["AGENTIC_OS_AUTONOMIC"]
+        result = subprocess.run([sys.executable, str(HOOKS / script)], input=json.dumps(payload),
+                                capture_output=True, text=True, env=env, timeout=90)
+        return result.returncode, result.stdout.strip()
+
+    core_edit = {"session_id": "a1", "cwd": str(market),
+                 "tool_input": {"file_path": str(se / "scripts" / "evalctl.py")}}
+    hook("change_sentinel.py", core_edit)
+    check("autonomic: sentinel marks a core edit", (data / "state" / "dirty-a1.json").is_file())
+    hook("change_sentinel.py", {"session_id": "a2", "cwd": str(market),
+                                "tool_input": {"file_path": str(market / "notes.md")}})
+    check("autonomic: sentinel ignores a non-core edit",
+          not (data / "state" / "dirty-a2.json").is_file())
+
+    code, out = hook("verify_on_change.py", {"session_id": "none", "cwd": str(market)})
+    check("autonomic: clean session stops silently", code == 0 and out == "")
+
+    code, out = hook("verify_on_change.py", {"session_id": "a1", "cwd": str(market)})
+    check("autonomic: green verify allows and clears the debt",
+          code == 0 and out == "" and not (data / "state" / "dirty-a1.json").is_file())
+
+    (market / "MARKER").unlink()
+    hook("change_sentinel.py", {**core_edit, "session_id": "a3"})
+    code, out = hook("verify_on_change.py", {"session_id": "a3", "cwd": str(market)})
+    blocked = json.loads(out) if out else {}
+    check("autonomic: regression blocks the stop with the failure named",
+          blocked.get("decision") == "block" and "toggle" in blocked.get("reason", ""),
+          out[:120])
+    check("autonomic: debt survives a failed verify", (data / "state" / "dirty-a3.json").is_file())
+    code, out = hook("verify_on_change.py",
+                     {"session_id": "a3", "cwd": str(market), "stop_hook_active": True})
+    check("autonomic: loop guard passes the second stop", code == 0 and out == "")
+
+    code, out = hook("autonomic_brief.py", {"cwd": str(market)})
+    context = (json.loads(out) if out else {}).get("hookSpecificOutput", {}).get("additionalContext", "")
+    check("autonomic: brief surfaces the standing regression",
+          "STANDING REGRESSION" in context and "toggle" in context)
+    code, out = hook("autonomic_brief.py", {"cwd": str(market)},
+                     {"CLAUDE_PLUGIN_DATA": str(tmp / "au-fresh")})
+    check("autonomic: brief silent with no state", code == 0 and out == "")
+
+    hook("change_sentinel.py", {**core_edit, "session_id": "ks"}, {"AGENTIC_OS_AUTONOMIC": "off"})
+    check("autonomic: kill switch silences the reflexes",
+          not (data / "state" / "dirty-ks.json").is_file())
+
+    # pulse against the real repo tools with a planted trail: proposals get staged
+    audit = tmp / "au-audit"
+    audit.mkdir()
+    lines = [json.dumps({"ts": f"2026-07-18T10:00:0{s}", "session": f"p{s}", "tool": "Bash",
+                         "ok": False, "summary": "git-cliff not found"}) for s in range(4)]
+    (audit / "trail.jsonl").write_text("\n".join(lines) + "\n")
+    code, out = hook("evolution_pulse.py", {"session_id": "p", "cwd": str(ROOT)},
+                     {"AGENTIC_OS_AUDIT_DIR": str(audit)})
+    staged = data / "state" / "pending-proposals.json"
+    payload = json.loads(staged.read_text()) if staged.is_file() else {}
+    proposals = payload.get("proposals", [])
+    check("autonomic: pulse stages mined proposals",
+          any("git-cliff" in p["title"] for p in proposals), str([p.get("id") for p in proposals]))
+    check("autonomic: pulse ranks the standing regression first",
+          proposals and proposals[0]["kind"] == "fix" and "toggle" in proposals[0]["id"],
+          proposals[0]["id"] if proposals else "none")
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
@@ -634,6 +733,7 @@ def main() -> int:
         test_doctor(tmp)
         test_self_evolution(tmp)
         test_long_horizon(tmp)
+        test_autonomic_loop(tmp)
 
     total = len(PASSED) + len(FAILED)
     print(f"\n{'─' * 60}")
