@@ -105,6 +105,20 @@
       "strict": true,
       "ref": "v1.0.0",
       "sha": "4f55acfa9c282ee39244478fa6255c6c8f847d85"
+    },
+    {
+      "name": "proto-forge",
+      "source": "./plugins/proto-forge",
+      "description": "Brief -> deterministic security-first React 19 + TypeScript + Vite prototype: owned component library, full test suite, WCAG 2.2 AA, i18n, ADRs and a pnpm verify gate suite.",
+      "category": "workflow",
+      "keywords": [
+        "prototype",
+        "react",
+        "vite",
+        "scaffolding",
+        "testing"
+      ],
+      "strict": true
     }
   ]
 }
