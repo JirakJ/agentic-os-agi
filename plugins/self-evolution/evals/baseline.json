@@ -1,8 +1,9 @@
 {
-  "ts": "2026-07-18T18:31:42",
-  "sha": "61a8a16",
+  "ts": "2026-07-18T18:49:08",
+  "sha": "a593f06",
   "aggregate": 1.0,
   "scores": {
+    "autonomic-loop": 1.0,
     "frontier-ranking": 1.0,
     "mission-lifecycle": 1.0,
     "self-model-accuracy": 1.0,
@@ -13,8 +14,8 @@
     "secret-defense": 1.0
   },
   "by_capability": {
-    "self-knowledge": 1.0,
     "autonomy": 1.0,
+    "self-knowledge": 1.0,
     "governance": 1.0,
     "retrieval": 1.0,
     "release": 1.0,
