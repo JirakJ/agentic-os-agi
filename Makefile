@@ -6,8 +6,9 @@ SCRIPTS := plugins/core-orchestration/scripts
 MEMORY  := plugins/memory-obsidian/scripts
 EVOLVE  := plugins/self-evolution/scripts
 HORIZON := plugins/long-horizon/scripts
+AUTONOM := plugins/autonomic-loop/scripts
 
-.PHONY: help doctor test adr release status index recall evals evolve missions frontier install clean
+.PHONY: help doctor test adr release status index recall evals evolve missions frontier autonomic install clean
 
 help:
 	@echo "doctor    validate every plugin, skill, agent, hook and decision record"
@@ -21,6 +22,7 @@ help:
 	@echo "evolve    mine experience, generate ranked capability proposals"
 	@echo "missions  list missions in flight (goal state that outlives sessions)"
 	@echo "frontier  the self-model + what the system should learn next"
+	@echo "autonomic inspect the autonomic loop: debt, last verify, staged proposals"
 	@echo "install   register this marketplace with Claude Code"
 	@echo "clean     drop derived caches"
 
@@ -62,6 +64,9 @@ missions:
 
 frontier:
 	@$(PY) $(HORIZON)/frontier.py
+
+autonomic:
+	@$(PY) $(AUTONOM)/autonomic.py
 
 install:
 	@claude plugin marketplace add .

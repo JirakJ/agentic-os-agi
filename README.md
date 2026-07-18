@@ -2,9 +2,10 @@
 
 A Git-native orchestration layer for [Claude Code](https://docs.claude.com/en/docs/claude-code):
 versioned agents, skills and instructions, hook-enforced governance, MADR decision records, a
-three-layer memory stack, a verification-gated self-improvement loop, and long-horizon autonomy
-— durable missions, an evidence-derived self-model and a learning frontier — built entirely
-from Claude Code primitives, with no direct LLM API calls.
+three-layer memory stack, a verification-gated self-improvement loop, long-horizon autonomy —
+durable missions, an evidence-derived self-model and a learning frontier — and an autonomic
+layer that makes the whole loop self-triggering through hooks. Built entirely from Claude Code
+primitives, with no direct LLM API calls.
 
 The premise: your agent fleet's behaviour is text, that text changes constantly, and every change
 should be attributable to a diff and revertible in isolation. Git is the source of truth; hooks
@@ -15,7 +16,7 @@ compound capability under governance.
 
 ## What's in it
 
-Five plugins, each independently versioned and installable:
+Six plugins, each independently versioned and installable:
 
 | Plugin | What it does |
 |---|---|
@@ -24,10 +25,11 @@ Five plugins, each independently versioned and installable:
 | **memory-obsidian** | Three-layer memory — an Obsidian vault as the knowledge base, a local SQLite FTS5 + sqlite-vec hybrid retrieval index, and durable session memory. Recall returns snippets, not whole notes. |
 | **self-evolution** | A verification-gated self-improvement loop — a capability-eval harness with regression tracking, an experience miner over the audit trail, and a proposal engine that turns recurring patterns into governed capability proposals. Ships `evalctl.py`, `mine.py`, `propose.py`. |
 | **long-horizon** | Long-horizon autonomy — durable missions that outlive sessions with structural resumability at session start, an evidence-derived capability self-model, and a learning frontier ordering what to learn next. Ships `mission.py`, `selfmodel.py`, `frontier.py`. |
+| **autonomic-loop** | The autonomic nervous system — hook-driven policy that makes the loop self-triggering: core changes are verified before a turn may end (blocking on regression), sessions end by staging mined proposals, sessions start knowing the system's state. Kill-switchable. Ships `autonomic.py`. |
 
-Fourteen skills, five subagents, ten slash commands, seven hooks, thirteen decision records and
-eight capability evals — all validated, all tested end-to-end against real payloads and a real
-git repo.
+Fourteen skills, five subagents, eleven slash commands, twelve hook scripts across nine events,
+fourteen decision records and nine capability evals — all validated, all tested end-to-end
+against real payloads and a real git repo.
 
 ## Install
 
@@ -44,12 +46,14 @@ claude plugin install governance-gates@agentic-os
 claude plugin install memory-obsidian@agentic-os
 claude plugin install self-evolution@agentic-os
 claude plugin install long-horizon@agentic-os
+claude plugin install autonomic-loop@agentic-os
 ```
 
 `governance-gates` depends on `core-orchestration` (it calls `doctor.py`); `self-evolution` depends
 on both (it evaluates the release tooling and mines the audit trail); `long-horizon` depends on all
-three (missions feed the frontier, which reads the eval suite and the miner). Claude Code resolves
-and installs dependencies automatically.
+three (missions feed the frontier, which reads the eval suite and the miner); `autonomic-loop`
+depends on all four — it is pure policy over their tools. Claude Code resolves and installs
+dependencies automatically.
 
 Verify the install:
 
@@ -130,6 +134,25 @@ assertion — and reports *measured*, *unmeasured* and *used* as three distinct 
 **frontier** (ADR-0013) fuses the self-model, blocked missions and mined friction into an
 evidence-ordered learning agenda: weakness > blocked intent > coverage gaps > friction. The
 frontier orders; the loop's gates still decide. Vision enters as a mission, not a frontier edit.
+
+## The autonomic layer
+
+Everything above waits to be invoked; `autonomic-loop` removes the waiting (ADR-0014). Hooks are
+the one deterministic trigger surface Claude Code offers, so the loop's policy lives there, in a
+plugin that owns *when* things fire and none of *how*:
+
+- **PostToolUse** — an edit under `plugins/` or `adr/` marks the session core-dirty.
+- **Stop** — a core-dirty session runs the capability suite before it may finish. A regression
+  blocks the stop with the failing capability named and the fix path; a green run clears the
+  debt. A turn does not end with the fleet measurably worse and nobody told.
+- **SessionEnd** — the trail is mined and the top proposals staged, after the human has left.
+- **SessionStart** — the next session opens knowing the verified state, any standing
+  regression, and the staged proposals — with the skills to apply named explicitly.
+
+`AGENTIC_OS_AUTONOMIC=off` switches every reflex off without uninstalling anything: the system
+degrades to manual, losing automation and nothing else. That separability is the point — and the
+adoption gate is untouched: the loop senses, verifies, stages and blocks; it never authors or
+adopts (ADR-0010). Inspect it any time with `/autonomic`.
 
 ## Working in the repo
 
