@@ -1,0 +1,16 @@
+{
+  "description": "Keeps the L4 retrieval index fresh at session end so the next session can recall what this one committed.",
+  "hooks": {
+    "SessionEnd": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "python3 \"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/session_memory.py\"",
+            "timeout": 60
+          }
+        ]
+      }
+    ]
+  }
+}
