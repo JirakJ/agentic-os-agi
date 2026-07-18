@@ -1,0 +1,12 @@
+{
+  "_comment": "Default gate modes. Override per machine in ~/.jj-agentic-os/gates.json or env JJ_GATE_<NAME>. Promotion model: dryrun until measured FP < 2%, then enforce (see guardrail-forge skill). gate-protection and security-gate ship enforcing because they are safety-critical, not tunable.",
+  "gate-protection":      { "mode": "enforce" },
+  "security-gate":        { "mode": "enforce" },
+  "commit-integrity":     { "mode": "dryrun" },
+  "no-placeholder":       { "mode": "dryrun" },
+  "ship-gate":            { "mode": "dryrun" },
+  "test-gate":            { "mode": "dryrun" },
+  "i18n-complete":        { "mode": "dryrun" },
+  "context-budget-guard": { "mode": "dryrun" },
+  "subagent-gate":        { "mode": "dryrun" }
+}

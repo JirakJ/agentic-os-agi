@@ -1,0 +1,26 @@
+# Environment setup for the GitHub Copilot coding agent. The job MUST be named exactly
+# copilot-setup-steps or Copilot ignores it. Preinstalls toolchain + scanner DBs so the
+# agent can run scripts/preflight.sh inside its sandbox.
+name: "Copilot Setup Steps"
+on:
+  workflow_dispatch: {}
+  push:
+    paths: [".github/workflows/copilot-setup-steps.yml"]
+jobs:
+  copilot-setup-steps:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+      - name: Install scanners
+        run: |
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz | tar -xz gitleaks && sudo mv gitleaks /usr/local/bin/
+          curl -sSfL -o /usr/local/bin/osv-scanner https://github.com/google/osv-scanner/releases/download/v2.2.4/osv-scanner_linux_amd64 && sudo chmod +x /usr/local/bin/osv-scanner || true
+      - name: Prime osv offline databases
+        run: osv-scanner scan --offline --download-offline-databases -r . || true

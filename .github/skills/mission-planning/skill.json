@@ -1,0 +1,9 @@
+{
+  "name": "mission-planning",
+  "version": "1.0.0",
+  "description": "Decompose multi-session goals into durable missions with verifiable, session-sized steps, and maintain mission state so any future session resumes from truth.",
+  "layer": "L2-episodic",
+  "dependencies": {},
+  "adr": ["ADR-0011"],
+  "stability": "stable"
+}

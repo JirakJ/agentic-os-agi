@@ -1,0 +1,25 @@
+rules:
+  - id: jj-python-eval-use
+    languages: [python]
+    severity: ERROR
+    message: eval() on dynamic input is an injection primitive. Parse explicitly (json, ast.literal_eval) instead.
+    patterns:
+      - pattern: eval(...)
+      - pattern-not: eval("...")
+  - id: jj-python-subprocess-shell-true-fstring
+    languages: [python]
+    severity: ERROR
+    message: subprocess with shell=True and an interpolated string enables command injection. Use argv lists.
+    patterns:
+      - pattern-either:
+          - pattern: subprocess.run(f"...", ..., shell=True, ...)
+          - pattern: subprocess.Popen(f"...", ..., shell=True, ...)
+          - pattern: subprocess.check_output(f"...", ..., shell=True, ...)
+  - id: jj-js-child-process-exec-concat
+    languages: [javascript, typescript]
+    severity: ERROR
+    message: child_process.exec with string concatenation enables command injection. Use execFile with an args array.
+    patterns:
+      - pattern-either:
+          - pattern: require('child_process').exec($X + $Y, ...)
+          - pattern: exec(`...${$V}...`, ...)

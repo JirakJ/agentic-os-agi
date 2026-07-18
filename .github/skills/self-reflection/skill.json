@@ -1,0 +1,9 @@
+{
+  "name": "self-reflection",
+  "version": "1.0.0",
+  "description": "Extract durable lessons and improvement signals from the audit trail after a session, and route them to capture, a decision record, or the evolution loop.",
+  "layer": "L2-episodic",
+  "dependencies": {},
+  "adr": ["ADR-0009"],
+  "stability": "stable"
+}

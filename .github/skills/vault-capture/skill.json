@@ -1,0 +1,9 @@
+{
+  "name": "vault-capture",
+  "version": "1.0.0",
+  "description": "Write durable notes into the Obsidian vault or episodic memory via the Local REST API, with a filesystem fallback.",
+  "layer": "L3-knowledge",
+  "dependencies": {},
+  "adr": ["ADR-0003", "ADR-0004"],
+  "stability": "stable"
+}

@@ -1,0 +1,29 @@
+# Reusable server-side gate: runs the SAME preflight pipeline as local commits ("not
+# rocket science" rule). Consumers:
+#   jobs:
+#     gate:
+#       uses: <org>/jj-agentic-os/.github/workflows/jj-preflight.yml@v3
+# Make it authoritative with a repository ruleset requiring the "preflight" check and
+# disallowing bypass - the only layer git --no-verify and the Copilot coding agent
+# cannot evade.
+name: jj-preflight
+on:
+  workflow_call: {}
+  pull_request: {}
+  merge_group: {}
+jobs:
+  preflight:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install scanners (gitleaks, osv-scanner, opengrep fallback semgrep)
+        run: |
+          set -e
+          curl -sSfL https://github.com/gitleaks/gitleaks/releases/download/v8.24.3/gitleaks_8.24.3_linux_x64.tar.gz | tar -xz gitleaks && sudo mv gitleaks /usr/local/bin/
+          curl -sSfL -o /usr/local/bin/osv-scanner https://github.com/google/osv-scanner/releases/download/v2.2.4/osv-scanner_linux_amd64 && sudo chmod +x /usr/local/bin/osv-scanner || true
+          pipx install semgrep || pip install --user semgrep || true
+      - name: Run preflight (CI mode)
+        run: bash scripts/preflight.sh --ci

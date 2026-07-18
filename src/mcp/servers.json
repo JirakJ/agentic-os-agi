@@ -1,0 +1,11 @@
+{
+  "_comment": "Canonical MCP source of truth. build-adapters.py rewraps this into .mcp.json (Claude, key mcpServers), .vscode/mcp.json (VS Code, key servers), and .github/mcp.json (Copilot CLI/JetBrains workspace, key mcpServers). Coding agent: paste the mcpServers object into repo Settings > Copilot > Coding agent.",
+  "servers": {
+    "obsidian-vault": {
+      "type": "http",
+      "url": "http://127.0.0.1:27123/mcp/",
+      "headers": { "Authorization": "Bearer ${OBSIDIAN_REST_API_KEY}" },
+      "_note": "Obsidian Local REST API plugin (v4+ serves MCP). HTTPS variant on :27124 with the plugin's self-signed cert. File-access fallback: hooks read/write the vault checkout directly when the API is down."
+    }
+  }
+}

@@ -1,0 +1,2 @@
+# Additive, order-independent files merge with union to avoid conflicts across machines.
+CHANGELOG.md merge=union

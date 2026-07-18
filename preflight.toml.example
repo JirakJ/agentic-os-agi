@@ -1,0 +1,32 @@
+# preflight.toml - copy to your repo root and adjust. All fields are optional; auto-detection
+# fills gaps from marker files (Package.swift, CMakeLists.txt, pyproject.toml, package.json,
+# build.gradle/pom.xml, Cargo.toml).
+schema_version = 1
+project_type = "library"     # cli | library | service | swift-app | jetbrains-plugin
+languages = ["python"]
+
+[budgets]
+build_s = 240
+test_s  = 300
+smoke_s = 30
+sast_s  = 60
+deps_s  = 60
+total_s = 600
+
+[commands]                    # override auto-detected commands; run inside the staged-tree export
+# build = "uv sync --frozen"
+# test  = "uv run pytest -x -q"
+# lint  = "uv run ruff check --select E,F ."
+# smoke = "uv run python -c 'import mypkg'"
+
+[security]
+strict = false               # true: a missing scanner tool makes the attestation RED (air-gapped: preseed DBs)
+fail_on_cvss = 7.0           # osv-scanner findings at/above this CVSS block
+sast_severity = "ERROR"      # opengrep/semgrep severity that blocks
+
+[service]                    # only for project_type = "service"
+health_url = "http://127.0.0.1:8080/health"
+boot_cmd = ""
+
+[freshness]
+ttl_s = 1800                 # attestation freshness window (seconds)

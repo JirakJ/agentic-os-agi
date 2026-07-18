@@ -1,0 +1,11 @@
+{
+  "name": "release-flow",
+  "version": "1.0.0",
+  "description": "SemVer releases, git-cliff changelogs, per-plugin tags and SHA-pinned rollback for marketplace plugins.",
+  "layer": "L1-core",
+  "dependencies": {
+    "commit-discipline": "^1.0.0"
+  },
+  "adr": ["ADR-0002"],
+  "stability": "stable"
+}

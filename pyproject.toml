@@ -1,0 +1,13 @@
+[project]
+name = "jj-agentic-os"
+version = "3.0.0"
+description = "Agentic OS: dual-runtime (Claude Code plugin + GitHub Copilot) guardrails, skills, and two-tier memory."
+requires-python = ">=3.11"
+dependencies = []
+
+[dependency-groups]
+dev = ["pytest>=8"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests", "plugins/core-guardrails/tests"]
+addopts = "-q"

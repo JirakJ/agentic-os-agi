@@ -1,0 +1,8 @@
+---
+description: Run the commit-integrity preflight on the staged tree and report the attestation
+---
+1. Run `bash scripts/preflight.sh` from the repo root and stream the step results.
+2. If red: list the failing steps with their summaries, fix them (production-ready fixes,
+   no placeholder patches), re-run until green.
+3. When green, report the attestation tree hash and remind that commits within the TTL
+   (default 30 min) will pass the commit-integrity gate.

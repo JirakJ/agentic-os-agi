@@ -1,0 +1,9 @@
+{
+  "name": "self-assessment",
+  "version": "1.0.0",
+  "description": "Read the evidence-derived capability self-model and the learning frontier: what the system can do, where it is weak or unmeasured, and what to learn next — calibrated, never asserted.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": ["ADR-0012", "ADR-0013"],
+  "stability": "stable"
+}

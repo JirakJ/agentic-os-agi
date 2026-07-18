@@ -1,0 +1,5 @@
+[Unit]
+Description=jj-agentic-os vault sync
+[Service]
+Type=oneshot
+ExecStart=/usr/bin/env bash %h/jj-agentic-os/scripts/jj-sync.sh

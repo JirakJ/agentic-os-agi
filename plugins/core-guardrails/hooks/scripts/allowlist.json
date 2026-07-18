@@ -1,0 +1,10 @@
+{
+  "version": 1,
+  "secret_paths": ["**/.env", "**/.env.*", "**/*.pem", "**/*.key", "**/id_rsa*", "**/id_ed25519*", "**/.ssh/*", "**/.aws/credentials", "**/settings.local.json", "**/.netrc", "**/*.p12", "**/*.keystore"],
+  "destructive_bash": ["rm\\s+-rf\\s+[/~]\\s*$", "rm\\s+-rf\\s+/(?!tmp|home/\\S+/tmp)", "git\\s+push\\s+.*--force(?!-with-lease).*\\s(origin\\s+)?(main|master)\\b", "git\\s+reset\\s+--hard\\s+(origin/)?(main|master)", "\\bmkfs\\.", ":\\(\\)\\{\\s*:\\|:&\\s*\\};:", "\\bDROP\\s+(TABLE|DATABASE)\\b", "chmod\\s+-R\\s+777\\s+/"],
+  "protected_gate_files": ["**/hooks/hooks.json", "**/hooks/scripts/**", "**/allowlist.json", "**/gates.json", "**/.claude-plugin/*.json", "**/lefthook.yml", "**/osv-scanner.toml", "**/.opengrep-baseline*", "**/.gitleaks*"],
+  "placeholder_patterns": ["\\bTODO\\b(?!\\()", "\\bFIXME\\b", "\\bXXX\\b:", "NotImplementedError", "raise\\s+NotImplemented\\b", "\\bplaceholder\\b", "lorem ipsum", "<insert[ _-]", "\\bstub(bed)?\\b\\s*(implementation|function|method)", "// \\.\\.\\.\\s*$", "# \\.\\.\\.\\s*$"],
+  "placeholder_exempt_paths": ["**/tests/**", "**/test_*.py", "**/*_test.*", "**/*.md", "**/docs/**", "**/CHANGELOG*", "**/allowlist.json", "**/*.bats", "**/fixtures/**"],
+  "i18n_paths": ["**/locales/**/*.json", "**/i18n/**/*.json", "**/lang/**/*.json"],
+  "confidential_boundary_deny": ["**/jj-vault/**/employer-confidential/**", "**/jj-vault/**/client-confidential/**"]
+}

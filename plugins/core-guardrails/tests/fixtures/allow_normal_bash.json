@@ -1,0 +1,1 @@
+{"x-expect": "allow", "hook_event_name": "PreToolUse", "session_id": "fix-ok2", "cwd": "/tmp", "tool_name": "Bash", "tool_input": {"command": "ls -la"}}

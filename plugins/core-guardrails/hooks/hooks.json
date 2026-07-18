@@ -1,0 +1,32 @@
+{
+  "hooks": {
+    "PreToolUse": [
+      {
+        "matcher": "Bash|Edit|Write|MultiEdit|Read|NotebookEdit",
+        "hooks": [
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/dispatch.sh\" PreToolUse", "timeout": 30 }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "Edit|Write|MultiEdit|Skill|Task",
+        "hooks": [
+          { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/dispatch.sh\" PostToolUse", "timeout": 60 }
+        ]
+      }
+    ],
+    "SessionStart": [
+      { "hooks": [ { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/dispatch.sh\" SessionStart", "timeout": 20 } ] }
+    ],
+    "SessionEnd": [
+      { "hooks": [ { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/dispatch.sh\" SessionEnd", "timeout": 20 } ] }
+    ],
+    "SubagentStop": [
+      { "hooks": [ { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/dispatch.sh\" SubagentStop", "timeout": 20 } ] }
+    ],
+    "PreCompact": [
+      { "hooks": [ { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/dispatch.sh\" PreCompact", "timeout": 15 } ] }
+    ]
+  }
+}

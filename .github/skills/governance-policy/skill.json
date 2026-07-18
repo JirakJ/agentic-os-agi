@@ -1,0 +1,9 @@
+{
+  "name": "governance-policy",
+  "version": "1.0.0",
+  "description": "What each governance gate blocks, why it exists, and how to resolve a block without defeating it.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": ["ADR-0005", "ADR-0006"],
+  "stability": "stable"
+}

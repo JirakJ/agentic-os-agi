@@ -1,0 +1,9 @@
+{
+  "name": "evaluation-authoring",
+  "version": "1.0.0",
+  "description": "Write capability evals with deterministic verifiers so capabilities are measurable and regression-tracked — the verification substrate for safe self-improvement.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": ["ADR-0008"],
+  "stability": "stable"
+}

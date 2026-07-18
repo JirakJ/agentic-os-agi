@@ -1,0 +1,14 @@
+# Generated-artifact drift gate: src/ is the source of truth; hand edits to generated
+# Copilot/Claude targets fail here.
+name: drift-check
+on:
+  pull_request:
+    paths: ["src/**", ".github/**", "AGENTS.md", "lefthook.yml", ".mcp.json", ".vscode/mcp.json", "plugins/**"]
+jobs:
+  drift:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with: { python-version: "3.12" }
+      - run: python scripts/build-adapters.py --check

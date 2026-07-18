@@ -1,0 +1,5 @@
+# osv-scanner baseline ratchet. Add IgnoredVulns entries ONLY with an ADR reference and an
+# expiry - the deps step post-processes CVSS from JSON (osv-scanner has no severity flag).
+# [[IgnoredVulns]]
+# id = "GHSA-xxxx-xxxx-xxxx"
+# reason = "ADR-0007: no fix released; mitigated by X. Re-evaluate 2026-09-01."

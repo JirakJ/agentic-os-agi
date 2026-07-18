@@ -1,11 +1,20 @@
-# Agentic OS
+# Agentic OS AGI
 
-A Git-native orchestration layer for [Claude Code](https://docs.claude.com/en/docs/claude-code):
-versioned agents, skills and instructions, hook-enforced governance, MADR decision records, a
-three-layer memory stack, a verification-gated self-improvement loop, long-horizon autonomy —
-durable missions, an evidence-derived self-model and a learning frontier — and an autonomic
-layer that makes the whole loop self-triggering through hooks. Built entirely from Claude Code
+A Git-native orchestration layer for [Claude Code](https://docs.claude.com/en/docs/claude-code)
+and GitHub Copilot: versioned agents, skills and instructions, hook-enforced governance, MADR
+decision records, a layered memory stack, a verification-gated self-improvement loop,
+long-horizon autonomy — durable missions, an evidence-derived self-model and a learning
+frontier — an autonomic layer that makes the whole loop self-triggering through hooks, plus
+commit-integrity guardrails and business/day-job operations. Built entirely from Claude Code
 primitives, with no direct LLM API calls.
+
+> **This repo is a merge of two independent lineages** (`agentic-os` and `jj-agentic-os`,
+> which shared zero commits). Where they contradicted each other, the conflict is resolved in
+> a decision record rather than by whichever hook happened to run last:
+> [ADR-0021](adr/0021-one-memory-model-hooks-enqueue-humans-curate.md) (two memory
+> philosophies), [ADR-0022](adr/0022-single-gate-runtime-per-concern.md) (two gate runtimes),
+> [ADR-0023](adr/0023-the-full-distribution-does-not-fit-a-200k-listing-budget.md) (the merged
+> skill listing outgrew its context budget).
 
 The premise: your agent fleet's behaviour is text, that text changes constantly, and every change
 should be attributable to a diff and revertible in isolation. Git is the source of truth; hooks
@@ -16,7 +25,8 @@ compound capability under governance.
 
 ## What's in it
 
-Six plugins, each independently versioned and installable:
+Eleven plugins, each independently versioned and installable (ADR-0002). Nobody installs all
+of them — see ADR-0023 for what fits which context window.
 
 | Plugin | What it does |
 |---|---|
@@ -26,27 +36,35 @@ Six plugins, each independently versioned and installable:
 | **self-evolution** | A verification-gated self-improvement loop — a capability-eval harness with regression tracking, an experience miner over the audit trail, and a proposal engine that turns recurring patterns into governed capability proposals. Ships `evalctl.py`, `mine.py`, `propose.py`. |
 | **long-horizon** | Long-horizon autonomy — durable missions that outlive sessions with structural resumability at session start, an evidence-derived capability self-model, and a learning frontier ordering what to learn next. Ships `mission.py`, `selfmodel.py`, `frontier.py`. |
 | **autonomic-loop** | The autonomic nervous system — hook-driven policy that makes the loop self-triggering: core changes are verified before a turn may end (blocking on regression), sessions end by staging mined proposals, sessions start knowing the system's state. Kill-switchable. Ships `autonomic.py`. |
+| **proto-forge** | Brief → deterministic, security-first React 19 + TypeScript + Vite prototype: owned component library, full test suite, WCAG 2.2 AA, i18n from day one, per-ADR commits and a `pnpm verify` gate suite. |
+| **core-guardrails** | The gate runtime (ADR-0022) — numbered hook dispatch with enforcing/advisory modes, telemetry and a `/gate-unlock` override: security gate, commit-integrity attestation, no-placeholder, ship lockstep, test gate, context-budget guard. |
+| **memory-fabric** | The memory writer — crash-safe queue-based capture into a git-synced Obsidian vault, plus retro and compaction skills. Reads pair with `memory-obsidian`'s index (ADR-0021). |
+| **business-ops** | Solopreneur operations — content pipeline, consulting invoicing, JetBrains plugin releases, product launches. |
+| **day-job** | Enterprise operations — weekly status reports, Copilot rollout ops, meeting notes to actions. |
 
-Fourteen skills, five subagents, eleven slash commands, twelve hook scripts across nine events,
-fourteen decision records and nine capability evals — all validated, all tested end-to-end
-against real payloads and a real git repo.
+Around thirty skills, subagents, slash commands and hook scripts across nine events,
+twenty-three decision records and the capability eval suite — validated end-to-end against
+real payloads and a real git repo. The OS runs natively on Claude Code and, via generated
+adapters (`scripts/build-adapters.py`, ADR-0016), on GitHub Copilot surfaces.
 
 ## Install
 
 ```bash
-git clone https://github.com/jakubjirak/agentic-os.git
-cd agentic-os
+git clone https://github.com/JirakJ/agentic-os-agi.git
+cd agentic-os-agi
 
 # register the marketplace with Claude Code
 claude plugin marketplace add .
 
 # install the plugins you want
-claude plugin install core-orchestration@agentic-os
-claude plugin install governance-gates@agentic-os
-claude plugin install memory-obsidian@agentic-os
-claude plugin install self-evolution@agentic-os
-claude plugin install long-horizon@agentic-os
-claude plugin install autonomic-loop@agentic-os
+claude plugin install core-orchestration@agentic-os-agi
+claude plugin install governance-gates@agentic-os-agi
+claude plugin install memory-obsidian@agentic-os-agi
+claude plugin install self-evolution@agentic-os-agi
+claude plugin install long-horizon@agentic-os-agi
+claude plugin install autonomic-loop@agentic-os-agi
+claude plugin install core-guardrails@agentic-os-agi
+claude plugin install memory-fabric@agentic-os-agi
 ```
 
 `governance-gates` depends on `core-orchestration` (it calls `doctor.py`); `self-evolution` depends
@@ -59,7 +77,7 @@ Verify the install:
 
 ```bash
 /os-doctor          # validate every component
-/plugin list        # confirm all three are active
+/plugin list        # confirm the plugins you installed are active
 ```
 
 ## Configure memory (optional)

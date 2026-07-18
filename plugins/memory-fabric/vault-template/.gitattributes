@@ -1,0 +1,4 @@
+10-daily/** merge=union
+20-decisions/** merge=union
+30-retros/** merge=union
+70-telemetry/** merge=union

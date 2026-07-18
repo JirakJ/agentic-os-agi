@@ -1,13 +1,13 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-marketplace.json",
-  "name": "agentic-os",
+  "name": "agentic-os-agi",
   "owner": {
     "name": "Jakub Jirak",
     "url": "https://jakubjirak.com"
   },
   "metadata": {
-    "description": "Git-native agentic OS for Claude Code: versioned agents, skills and instructions with hook-enforced governance, MADR decision records, a three-layer memory stack, a verification-gated self-improvement loop, long-horizon autonomy, and an autonomic layer that makes the whole loop self-triggering through hooks.",
-    "version": "1.3.0"
+    "description": "Git-native agentic OS for Claude Code and GitHub Copilot: versioned agents, skills and instructions with hook-enforced governance, MADR decision records, a layered memory stack, a verification-gated self-improvement loop, long-horizon autonomy, an autonomic layer that makes the loop self-triggering, plus commit-integrity guardrails and business/day-job operations.",
+    "version": "2.0.0"
   },
   "plugins": [
     {
@@ -118,6 +118,34 @@
         "scaffolding",
         "testing"
       ],
+      "strict": true
+    },
+    {
+      "name": "core-guardrails",
+      "source": "./plugins/core-guardrails",
+      "description": "Production gates: commit-integrity attestation, security, no-placeholder, ship lockstep, telemetry, self-evolution meta-skills (skill-forge, guardrail-forge).",
+      "category": "governance",
+      "strict": true
+    },
+    {
+      "name": "memory-fabric",
+      "source": "./plugins/memory-fabric",
+      "description": "Two-tier persistent memory: git core + Obsidian vault. Capture, retro, compaction, cross-platform sync.",
+      "category": "memory",
+      "strict": true
+    },
+    {
+      "name": "business-ops",
+      "source": "./plugins/business-ops",
+      "description": "Solopreneur operations: content pipeline, consulting invoicing, JetBrains plugin releases, product launches.",
+      "category": "business",
+      "strict": true
+    },
+    {
+      "name": "day-job",
+      "source": "./plugins/day-job",
+      "description": "Enterprise day-job skills: weekly status reports, Copilot rollout ops, meeting notes to actions.",
+      "category": "work",
       "strict": true
     }
   ]
