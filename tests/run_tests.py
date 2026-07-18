@@ -30,6 +30,7 @@ ROOT = Path(__file__).resolve().parent.parent
 GATES = ROOT / "plugins" / "governance-gates" / "hooks" / "scripts"
 CORE = ROOT / "plugins" / "core-orchestration" / "scripts"
 MEMORY = ROOT / "plugins" / "memory-obsidian" / "scripts"
+SELF = ROOT / "plugins" / "self-evolution" / "scripts"
 
 VERBOSE = "-v" in sys.argv
 PASSED: list[str] = []
@@ -418,6 +419,117 @@ def test_doctor(tmp: Path) -> None:
           str(findings)[:200])
 
 
+def test_self_evolution(tmp: Path) -> None:
+    if VERBOSE:
+        print("\nself-evolution")
+
+    # --- eval harness + regression detection, on a controlled mini eval-dir (no recursion into
+    #     the real suite): a marker file toggles one eval, so we can force a regression on demand.
+    market = tmp / "se-market"
+    (market / ".claude-plugin").mkdir(parents=True)
+    (market / ".claude-plugin" / "marketplace.json").write_text('{"name":"t","plugins":[]}')
+    marker = market / "MARKER"
+    marker.write_text("present")
+
+    proot = tmp / "se-plugin"
+    (proot / "evals").mkdir(parents=True)
+    (proot / "evals" / "always-pass.json").write_text(json.dumps({
+        "id": "always-pass", "capability": "control", "kind": "invariant",
+        "description": "always passes",
+        "verifier": {"type": "exit_zero", "command": ["python3", "-c", "raise SystemExit(0)"]},
+        "weight": 1.0,
+    }))
+    (proot / "evals" / "toggle.json").write_text(json.dumps({
+        "id": "toggle", "capability": "control", "kind": "invariant",
+        "description": "passes iff the marker exists",
+        "verifier": {"type": "exit_zero", "command": [
+            "python3", "-c",
+            "import os,sys; sys.exit(0 if os.path.exists(os.path.join('${REPO_ROOT}','MARKER')) else 1)"]},
+        "weight": 1.0,
+    }))
+
+    env = {**os.environ, "CLAUDE_PLUGIN_ROOT": str(proot), "CLAUDE_PLUGIN_DATA": str(tmp / "se-data")}
+
+    def evalctl(*args: str) -> tuple[int, dict]:
+        result = subprocess.run(
+            [sys.executable, str(SELF / "evalctl.py"), "--root", str(market), *args],
+            capture_output=True, text=True, env=env, timeout=60)
+        payload = {}
+        if "--json" in args and result.stdout.strip():
+            payload = json.loads(result.stdout)
+        return result.returncode, payload
+
+    # green state: both pass, aggregate 1.0
+    code, card = evalctl("--json", "--no-ledger")
+    check("evalctl: runs the suite and scores", card.get("aggregate") == 1.0, str(card.get("aggregate")))
+    check("evalctl: green suite exits 0", code == 0, f"exit {code}")
+
+    # snapshot the green state as baseline
+    subprocess.run([sys.executable, str(SELF / "evalctl.py"), "--root", str(market), "--set-baseline"],
+                   capture_output=True, text=True, env=env, timeout=30)
+    check("evalctl: baseline is written", (proot / "evals" / "baseline.json").is_file())
+
+    # break the toggle eval → regression must be caught, exit 1
+    marker.unlink()
+    code, card = evalctl("--json", "--no-ledger")
+    regs = {r["id"] for r in card.get("regressions", [])}
+    check("evalctl: detects a regression against baseline", "toggle" in regs, str(card.get("regressions")))
+    check("evalctl: regression exits non-zero (revert signal)", code == 1, f"exit {code}")
+    check("evalctl: unaffected eval stays green",
+          any(r["id"] == "always-pass" and r["pass"] for r in card.get("results", [])))
+
+    # --- experience miner: a planted workflow must surface
+    audit = tmp / "se-audit"
+    audit.mkdir()
+    lines = []
+    ts = 0
+    for s in range(4):
+        for tool in ("Edit", "Bash", "Edit"):
+            ts += 1
+            lines.append(json.dumps({"ts": f"2026-07-16T10:00:{ts:02d}", "session": f"s{s}",
+                                     "tool": tool, "ok": True, "components": ["skill/x"]}))
+    (audit / "trail.jsonl").write_text("\n".join(lines) + "\n")
+    result = subprocess.run([sys.executable, str(SELF / "mine.py"), "--audit-dir", str(audit),
+                             "--json", "--min-support", "3", "--root", str(ROOT)],
+                            capture_output=True, text=True, timeout=30)
+    mined = json.loads(result.stdout)
+    workflows = mined["signals"]["workflows"]
+    check("mine: reconstructs sessions from the trail", mined["meta"]["sessions_analysed"] == 4)
+    check("mine: surfaces the planted workflow",
+          any(w["pattern"] == ["Edit", "Bash", "Edit"] and w["sessions"] == 4 for w in workflows),
+          str(workflows))
+
+    # empty trail → no crash, no signals
+    empty = tmp / "se-empty"
+    empty.mkdir()
+    result = subprocess.run([sys.executable, str(SELF / "mine.py"), "--audit-dir", str(empty),
+                             "--json", "--root", str(ROOT)], capture_output=True, text=True, timeout=30)
+    empty_mined = json.loads(result.stdout)
+    check("mine: empty trail yields no signals",
+          empty_mined["meta"]["sessions_analysed"] == 0 and not empty_mined["signals"]["workflows"])
+
+    # --- proposal engine: a regression must rank above a workflow
+    sig_file = tmp / "sig.json"
+    sig_file.write_text(json.dumps({"meta": {"sessions_analysed": 4}, "signals": {
+        "workflows": [{"type": "workflow", "pattern": ["Edit", "Bash"], "sessions": 4,
+                       "occurrences": 4, "support": 1.0, "suggests": "x"}],
+        "failures": [], "co_edits": [], "churn": []}}))
+    score_file = tmp / "score.json"
+    score_file.write_text(json.dumps({"aggregate": 0.9, "regressions": [{"id": "toggle", "was": 1.0, "now": 0.5}],
+                                      "results": [{"id": "toggle", "capability": "control", "pass": False,
+                                                   "score": 0.5, "detail": "x"}]}))
+    result = subprocess.run([sys.executable, str(SELF / "propose.py"), "--signals", str(sig_file),
+                             "--scorecard", str(score_file), "--json", "--root", str(ROOT)],
+                            capture_output=True, text=True, timeout=30)
+    proposals = json.loads(result.stdout)["proposals"]
+    check("propose: produces proposals from signals and regressions", len(proposals) == 2, str(len(proposals)))
+    check("propose: ranks the regression first",
+          proposals and proposals[0]["kind"] == "fix" and "toggle" in proposals[0]["id"],
+          proposals[0]["id"] if proposals else "none")
+    check("propose: every proposal requires an ADR",
+          all(p["requires_adr"] for p in proposals))
+
+
 def main() -> int:
     with tempfile.TemporaryDirectory() as raw:
         tmp = Path(raw)
@@ -427,6 +539,7 @@ def main() -> int:
         test_manifest_validator(tmp)
         test_retrieval(tmp / "r") if (tmp / "r").mkdir(parents=True, exist_ok=True) or True else None
         test_doctor(tmp)
+        test_self_evolution(tmp)
 
     total = len(PASSED) + len(FAILED)
     print(f"\n{'─' * 60}")
