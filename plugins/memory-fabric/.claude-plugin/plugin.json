@@ -1,9 +1,17 @@
 {
   "name": "memory-fabric",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Two-tier persistent memory: git repo for executable assets, Obsidian vault for long-term knowledge. Vault template, capture queue, retro and compaction skills, cross-platform jj-sync.",
-  "author": { "name": "Jakub Jirak", "url": "https://jakubjirak.com" },
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
   "repository": "https://github.com/jakubjirak/jj-agentic-os",
   "license": "MIT",
-  "keywords": ["memory", "obsidian", "vault", "knowledge"]
+  "keywords": [
+    "memory",
+    "obsidian",
+    "vault",
+    "knowledge"
+  ]
 }
