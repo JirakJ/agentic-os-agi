@@ -1,0 +1,9 @@
+{
+  "name": "consulting-invoicing",
+  "version": "3.0.0",
+  "description": "Produce monthly AI-consulting and training invoices with correct Czech invoicing fields, engagement summaries, and follow-up emails. Use whenever the user mentions invoice, faktura, billing, consulting hours, training session billing, or month-end client paperwork.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": [],
+  "stability": "stable"
+}

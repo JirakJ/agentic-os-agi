@@ -1,0 +1,9 @@
+{
+  "name": "skill-forge",
+  "version": "3.0.0",
+  "description": "Create, evaluate, prune, and promote skills for this Agentic OS so it keeps improving itself. Use whenever the user wants to turn a repeated workflow into a skill, improve or benchmark an existing skill, fix a skill that is not triggering, or run the periodic skill review. Also use when a retro note in the vault suggests a recurring workflow worth automating.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": [],
+  "stability": "stable"
+}

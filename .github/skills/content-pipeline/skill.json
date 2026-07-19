@@ -1,0 +1,9 @@
+{
+  "name": "content-pipeline",
+  "version": "3.0.0",
+  "description": "Turn engineering work and ideas into published content for thinkdifferent.blog and LinkedIn - from topic capture through draft, edit pass, and cross-post adaptation. Use whenever the user mentions blog post, article, LinkedIn post, content calendar, \"napis clanek\", publishing, or wants to repurpose a session/retro into content.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": [],
+  "stability": "stable"
+}

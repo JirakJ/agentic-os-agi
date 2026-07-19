@@ -1,0 +1,9 @@
+{
+  "name": "product-launch",
+  "version": "3.0.0",
+  "description": "Run a product or major-feature launch under jakubjirak.com - positioning, launch checklist, landing copy, announcement content, and post-launch measurement. Use whenever the user mentions launch, ship a product, go-to-market, landing page copy, pricing page, Product Hunt, or announcing something new.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": [],
+  "stability": "stable"
+}

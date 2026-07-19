@@ -1,12 +1,12 @@
 ---
-status: accepted
+status: superseded
 date: 2026-07-18
 decision-makers: [Jakub Jirak]
 consulted: []
 informed: []
 affects: [script/skill-budget-lint]
 supersedes: []
-superseded-by: []
+superseded-by: [0024]
 ---
 
 # ADR-0023 — The full distribution does not fit a 200k listing budget; install a subset

@@ -1,0 +1,9 @@
+{
+  "name": "weekly-status",
+  "version": "3.0.0",
+  "description": "Produce the ISO-week (W##) enterprise status report - accomplishments, in-progress, risks, next week, asks - from vault daily notes, commits, and meeting notes. Use whenever the user mentions weekly status, W report, status update, \"tydenni report\", Friday report, or a manager asking what was done this week.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": [],
+  "stability": "stable"
+}

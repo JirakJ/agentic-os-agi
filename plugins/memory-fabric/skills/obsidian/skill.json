@@ -1,0 +1,11 @@
+{
+  "name": "obsidian",
+  "version": "3.0.0",
+  "description": "Read and write the user's Obsidian vault (two-tier memory) - daily notes, decisions, retros, entities, project MOCs. Use whenever the user says vault, Obsidian, note, daily note, decision log, retro, \"zapis do vaultu\", \"remember this\", or when any skill needs durable memory. Prefer the Local REST API; fall back to direct file access in the vault checkout.",
+  "layer": "L3-knowledge",
+  "dependencies": {},
+  "adr": [
+    "ADR-0019"
+  ],
+  "stability": "stable"
+}

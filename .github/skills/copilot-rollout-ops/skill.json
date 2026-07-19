@@ -1,0 +1,12 @@
+{
+  "name": "copilot-rollout-ops",
+  "version": "3.0.0",
+  "description": "Operate the GitHub Copilot enterprise rollout across engineering teams - enablement sessions, adoption metrics, policy configuration, champion communications, and per-repo standards (instructions, skills, MCP, rulesets). Use whenever the user mentions Copilot rollout, adoption, enablement, Copilot policies, seats, training engineers on Copilot, or distributing AI standards across the org.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": [
+    "ADR-0016",
+    "ADR-0018"
+  ],
+  "stability": "stable"
+}

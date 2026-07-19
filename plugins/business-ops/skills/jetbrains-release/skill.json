@@ -1,0 +1,9 @@
+{
+  "name": "jetbrains-release",
+  "version": "3.0.0",
+  "description": "Ship a JetBrains plugin release end-to-end in lockstep - version bump, plugin.xml change-notes, README, buildPlugin + verifyPlugin, tag, and Marketplace upload. Use whenever the user mentions JetBrains plugin release, Marketplace, plugin.xml, change-notes, verifyPlugin, or wants to publish/update any of their IDE plugins.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": [],
+  "stability": "stable"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "memory-capture",
+  "version": "3.0.0",
+  "description": "Distill the current session into durable vault memory - decisions, blockers, root causes, next steps. Use when the user says remember this, capture this, save to memory, log this decision, \"uloz do pameti\", at the end of significant work sessions, and on Copilot surfaces where automatic SessionEnd capture does not exist. This is the explicit write-path of the two-tier memory.",
+  "layer": "L3-knowledge",
+  "dependencies": {},
+  "adr": [
+    "ADR-0019",
+    "ADR-0021"
+  ],
+  "stability": "stable"
+}

@@ -1,0 +1,12 @@
+{
+  "name": "memory-retro",
+  "version": "3.0.0",
+  "description": "Run a structured retrospective on friction - a failed approach, a gate misfire, a slow workflow, a repeated mistake - and turn it into a vault retro note plus a concrete improvement action (skill change, gate tuning, or ADR). Use when the user says retro, post-mortem, \"why did this keep failing\", or when the same problem appears twice.",
+  "layer": "L3-knowledge",
+  "dependencies": {},
+  "adr": [
+    "ADR-0019",
+    "ADR-0021"
+  ],
+  "stability": "stable"
+}

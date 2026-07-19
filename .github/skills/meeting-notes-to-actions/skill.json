@@ -1,0 +1,9 @@
+{
+  "name": "meeting-notes-to-actions",
+  "version": "3.0.0",
+  "description": "Convert raw meeting notes or transcripts into decisions, owned action items with due dates, and vault records - plus a follow-up message draft. Use whenever the user pastes meeting notes, mentions a meeting recap, action items, minutes, \"zapis ze schuzky\", or asks what was agreed.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": [],
+  "stability": "stable"
+}

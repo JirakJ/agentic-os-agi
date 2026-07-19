@@ -1,0 +1,12 @@
+{
+  "name": "memory-compact",
+  "version": "3.0.0",
+  "description": "Periodic vault maintenance - refine inbox captures into proper notes, merge duplicates, archive stale items, keep MOCs current. Use when the user says clean up the vault, process inbox, vault maintenance, weekly review, or when 00-inbox has more than 10 unprocessed captures.",
+  "layer": "L3-knowledge",
+  "dependencies": {},
+  "adr": [
+    "ADR-0019",
+    "ADR-0021"
+  ],
+  "stability": "stable"
+}
