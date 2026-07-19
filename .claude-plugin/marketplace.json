@@ -125,7 +125,9 @@
       "source": "./plugins/core-guardrails",
       "description": "Production gates: commit-integrity attestation, security, no-placeholder, ship lockstep, telemetry, self-evolution meta-skills (skill-forge, guardrail-forge).",
       "category": "governance",
-      "strict": true
+      "strict": true,
+      "ref": "v3.0.1",
+      "sha": "717c41dee3b9c6c75fd5507be2b5b4b76dd33a37"
     },
     {
       "name": "memory-fabric",
