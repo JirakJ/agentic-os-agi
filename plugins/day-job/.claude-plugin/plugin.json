@@ -1,9 +1,16 @@
 {
   "name": "day-job",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Enterprise day-job skills: ISO-week status report (W##), GitHub Copilot rollout operations, meeting notes to decisions and actions.",
-  "author": { "name": "Jakub Jirak", "url": "https://jakubjirak.com" },
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
   "repository": "https://github.com/jakubjirak/jj-agentic-os",
   "license": "MIT",
-  "keywords": ["enterprise", "reporting", "copilot"]
+  "keywords": [
+    "enterprise",
+    "reporting",
+    "copilot"
+  ]
 }
