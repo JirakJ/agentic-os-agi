@@ -39,8 +39,8 @@
         "compliance"
       ],
       "strict": true,
-      "ref": "v1.0.0",
-      "sha": "82d3bc57a87e8e31433de2336a9087ec6d9db034"
+      "ref": "v2.0.0",
+      "sha": "2ef45a5727248cb2d2c8b0e344143ea35873f340"
     },
     {
       "name": "memory-obsidian",
