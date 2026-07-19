@@ -134,7 +134,9 @@
       "source": "./plugins/memory-fabric",
       "description": "Two-tier persistent memory: git core + Obsidian vault. Capture, retro, compaction, cross-platform sync.",
       "category": "memory",
-      "strict": true
+      "strict": true,
+      "ref": "v3.0.1",
+      "sha": "54acfad8ce07fe96a76f2e1263265a2815f56316"
     },
     {
       "name": "business-ops",
