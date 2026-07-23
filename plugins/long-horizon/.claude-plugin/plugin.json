@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin.json",
   "name": "long-horizon",
   "displayName": "Agentic OS — Long Horizon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Long-horizon autonomy: durable missions that outlive sessions with structural resumability, an evidence-derived capability self-model, and a learning frontier that orders what the system should learn next.",
   "author": {
     "name": "Jakub Jirak",
