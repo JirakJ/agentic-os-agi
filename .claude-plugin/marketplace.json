@@ -71,8 +71,8 @@
         "capability-proposal"
       ],
       "strict": true,
-      "ref": "v1.1.0",
-      "sha": "bd14f1dd3f25af3cfb4afc4dfe4628e35761e886"
+      "ref": "v1.1.1",
+      "sha": "c2faeb44d5b5b2488984584040099f094df70c2c"
     },
     {
       "name": "long-horizon",
