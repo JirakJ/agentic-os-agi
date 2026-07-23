@@ -103,8 +103,8 @@
         "self-triggering"
       ],
       "strict": true,
-      "ref": "v1.0.0",
-      "sha": "4f55acfa9c282ee39244478fa6255c6c8f847d85"
+      "ref": "v1.0.1",
+      "sha": "e767a421e9eb3a685cfba988ba114eb85c19849a"
     },
     {
       "name": "proto-forge",
