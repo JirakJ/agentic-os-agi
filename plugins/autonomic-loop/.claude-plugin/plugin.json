@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin.json",
   "name": "autonomic-loop",
   "displayName": "Agentic OS — Autonomic Loop",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "The autonomic nervous system: hook-driven policy that makes the whole loop self-triggering — core changes are verified before a turn may end, sessions end by staging mined proposals, and sessions start knowing the system's state. Separable and kill-switchable; capability stays in the other plugins.",
   "author": {
     "name": "Jakub Jirak",

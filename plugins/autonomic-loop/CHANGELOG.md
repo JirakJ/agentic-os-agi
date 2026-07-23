@@ -2,6 +2,12 @@
 
 Derived from Conventional Commits by git-cliff. Do not edit by hand.
 
+## 1.0.1 — 2026-07-23
+
+### Documentation
+
+- **autonomic-loop**: Add README and initial changelog
+
 ## 1.0.0 — 2026-07-18
 
 ### Features
