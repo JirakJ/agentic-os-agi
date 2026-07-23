@@ -55,8 +55,8 @@
         "retrieval"
       ],
       "strict": true,
-      "ref": "v1.0.0",
-      "sha": "82d3bc57a87e8e31433de2336a9087ec6d9db034"
+      "ref": "v1.0.1",
+      "sha": "6b26743e3bb73c7820f2fcf6d066cab133a42017"
     },
     {
       "name": "self-evolution",
