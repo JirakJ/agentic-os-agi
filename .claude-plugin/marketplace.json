@@ -157,6 +157,22 @@
       "strict": true,
       "ref": "v3.0.1",
       "sha": "61d3220d147de21cb5907f1a5a44f091b626734f"
+    },
+    {
+      "name": "security-gate",
+      "source": "./plugins/security-gate",
+      "description": "On-demand AI security review: contextual, data-flow-aware vulnerability scanning with adversarial validation and human-gated patch proposals. Complements core-guardrails' mechanical gitleaks/semgrep/osv-scanner Stop-hook gate. Ships no hooks.",
+      "category": "security",
+      "keywords": [
+        "security",
+        "code-review",
+        "vulnerability",
+        "data-flow",
+        "adversarial-validation"
+      ],
+      "strict": true,
+      "ref": "v0.1.0",
+      "sha": "3764c88932c135014f9a6406af4cf972200d3998"
     }
   ]
 }
