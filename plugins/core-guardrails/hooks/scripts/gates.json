@@ -1,5 +1,5 @@
 {
-  "_comment": "Default gate modes. Override per machine in ~/.jj-agentic-os/gates.json or env JJ_GATE_<NAME>. Promotion model: dryrun until measured FP < 2%, then enforce (see guardrail-forge skill). gate-protection and security-gate ship enforcing because they are safety-critical, not tunable.",
+  "_comment": "Default gate modes. Override per machine in ~/.jj-agentic-os/gates.json or env JJ_GATE_<NAME>. Promotion model: dryrun until measured FP < 2%, then enforce (see guardrail-forge skill). gate-protection and security-gate ship enforcing because they are safety-critical, not tunable. Since ADR-0027, security-gate/test-gate/i18n-complete each name ONE concern spanning two enforcement points - a fast per-edit check (PreToolUse/PostToolUse) and a full, Stop-level aggregate check - and this file is the only place either point reads its mode from; machine-local settings.json hooks read nothing here and are deprecated.",
   "gate-protection":      { "mode": "enforce" },
   "security-gate":        { "mode": "enforce" },
   "commit-integrity":     { "mode": "dryrun" },

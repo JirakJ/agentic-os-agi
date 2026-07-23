@@ -27,6 +27,9 @@
     ],
     "PreCompact": [
       { "hooks": [ { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/dispatch.sh\" PreCompact", "timeout": 15 } ] }
+    ],
+    "Stop": [
+      { "hooks": [ { "type": "command", "command": "\"${CLAUDE_PLUGIN_ROOT}/hooks/scripts/dispatch.sh\" Stop", "timeout": 640 } ] }
     ]
   }
 }
