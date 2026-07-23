@@ -1,0 +1,18 @@
+{
+  "name": "anti-ai",
+  "version": "0.1.0",
+  "description": "AI-text humanization skill with a deterministic tell/detector linter (scripts/tellscan.mjs) that machine-verifies the countable subset of the self-check instead of trusting a hand-count -- same validated recipes (discourse fracture, interleave protocol), a mechanically enforced floor underneath them. Explicit-invocation-only skill: fires on /anti-ai or the skill named directly, never on paraphrased intent like 'humanize this'. Ships no hooks (ADR-0028).",
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
+  "repository": "https://github.com/jakubjirak/jj-agentic-os",
+  "license": "MIT",
+  "keywords": [
+    "writing",
+    "humanization",
+    "ai-detection",
+    "linter",
+    "editing"
+  ]
+}
