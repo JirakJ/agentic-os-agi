@@ -87,8 +87,8 @@
         "frontier"
       ],
       "strict": true,
-      "ref": "v1.0.0",
-      "sha": "b1f8db7e3eef1a80974620d1e232feaf3acaeb72"
+      "ref": "v1.0.1",
+      "sha": "afb0f3df5a3e8e2763fb216512ca4def6c6fbc67"
     },
     {
       "name": "autonomic-loop",
