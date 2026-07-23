@@ -1,4 +1,4 @@
-# core-guardrails 3.1.0
+# core-guardrails 4.0.0
 18 hooks behind one dispatcher (`hooks/scripts/dispatch.sh <Event>`): gate-protection,
 security-gate, commit-integrity, no-placeholder, ship-gate (PreToolUse); test-gate,
 i18n-complete, skill-usage-logger, context-budget-guard (PostToolUse); memory-reader
