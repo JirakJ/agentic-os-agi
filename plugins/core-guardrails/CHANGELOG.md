@@ -2,10 +2,11 @@
 
 Derived from Conventional Commits by git-cliff. Do not edit by hand.
 
-## 3.1.0 — 2026-07-23
+## 4.0.0 — 2026-07-23
 
 ### Documentation
 
+- **core-guardrails**: Correct README version header to v4.0.0
 - **skill/guardrail-forge**: Document Stop as a valid gate event (ADR-0027)
 
 ### Features
