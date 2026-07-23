@@ -2,6 +2,20 @@
 
 Derived from Conventional Commits by git-cliff. Do not edit by hand.
 
+## 3.1.0 — 2026-07-23
+
+### Documentation
+
+- **skill/guardrail-forge**: Document Stop as a valid gate event (ADR-0027)
+
+### Features
+
+- **hook/stop-gates**: Bring Stop gates under the dispatcher (ADR-0027)
+
+### Tests
+
+- **hook/stop-gates**: Cover Stop dispatch, enforce block, dryrun advisory (ADR-0027)
+
 ## 3.0.1 — 2026-07-19
 
 ### Features
