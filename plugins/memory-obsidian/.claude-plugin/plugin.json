@@ -2,7 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-plugin.json",
   "name": "memory-obsidian",
   "displayName": "Agentic OS — Memory & Obsidian",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Three-layer memory: Obsidian vault as the human knowledge base, a local SQLite FTS5 + sqlite-vec hybrid retrieval index, and durable session memory captured at session end.",
   "author": {
     "name": "Jakub Jirak",
