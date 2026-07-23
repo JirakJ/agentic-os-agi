@@ -100,5 +100,10 @@ this change is verified.
 ## More Information
 
 Implemented in the `feat(hook/stop-gates)` and `refactor(hook/dispatch)` commits that accompany
-this record; `plugins/core-guardrails` releases 3.1.0 in the same turn. Revisit if a repo's Stop
-suite genuinely needs the full test-gate.mjs 600s ceiling this port narrowed to ~150s.
+this record; `plugins/core-guardrails` releases as **v4.0.0**, not the v3.1.0 first drafted here —
+before this change `Stop` had no gate at all, so any consumer whose `gates.json` already declared
+`security-gate: enforce` goes from "Stop always succeeds" to "Stop can now block" without changing
+a line of their own config. That is new blocking behaviour, which this repo's own SemVer policy
+(release-flow skill, ADR-0002) treats as a major bump regardless of the commit types used to build
+it. Revisit if a repo's Stop suite genuinely needs the full test-gate.mjs 600s ceiling this port
+narrowed to ~150s.
