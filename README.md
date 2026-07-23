@@ -47,6 +47,42 @@ twenty-three decision records and the capability eval suite — validated end-to
 real payloads and a real git repo. The OS runs natively on Claude Code and, via generated
 adapters (`scripts/build-adapters.py`, ADR-0016), on GitHub Copilot surfaces.
 
+## Default set
+
+Nobody should install all twelve plugins by default: every installed skill's `name` +
+`description` is charged against the always-on skill-listing budget of *every* session, before any
+work happens. ADR-0023 measured the full distribution against a 200k-context listing budget and
+refused to weaken the gate to make a bigger merge look clean; ADR-0024 fixed the gate to measure
+what a machine actually has installed rather than the whole repository, falling back to the full
+distribution only when it cannot tell what is installed at all. `scripts/skill-budget-lint.py` is
+the enforcement — see both records before changing what it measures or its threshold.
+
+On this machine, the enabled set is:
+
+- `core-orchestration` — the authoring/release hub; nearly everything else depends on it
+- `core-guardrails` — the gate runtime (ADR-0022)
+- `memory-fabric` — the memory writer (ADR-0021)
+- `business-ops` — solopreneur operations
+- `day-job` — enterprise operations
+- `security-gate` — on-demand AI security review (ADR-0026)
+
+Opt-in — install deliberately, per context budget and need, not by default:
+
+- `governance-gates`, `self-evolution`, `long-horizon`, `autonomic-loop` — the self-improvement
+  and long-horizon autonomy stack. Each depends on the last (`autonomic-loop` → `long-horizon` →
+  `self-evolution` → `governance-gates` → `core-orchestration`), so installing the outermost one
+  pulls the rest in automatically; install only as far down the chain as the work needs.
+- `memory-obsidian` — the vault-backed retrieval layer (L3 read + L4 index). No declared
+  dependencies; install it independently of the stack above.
+- `proto-forge` — the prototype-generation workflow. No declared dependencies; install only when
+  building a new prototype.
+
+```bash
+# what a given runtime can actually afford
+python3 scripts/skill-budget-lint.py                                     # measures the installed set (ADR-0024)
+AGENTIC_OS_CONTEXT_TOKENS=1000000 python3 scripts/skill-budget-lint.py   # override the denominator (ADR-0023)
+```
+
 ## Install
 
 ```bash
