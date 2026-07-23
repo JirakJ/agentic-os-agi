@@ -173,6 +173,20 @@
       "strict": true,
       "ref": "v0.1.0",
       "sha": "3764c88932c135014f9a6406af4cf972200d3998"
+    },
+    {
+      "name": "anti-ai",
+      "source": "./plugins/anti-ai",
+      "description": "AI-text humanization skill with a deterministic tell/detector linter (scripts/tellscan.mjs) that machine-verifies the countable subset of its self-check instead of a hand-count. Explicit-invocation-only skill -- fires on /anti-ai, never on paraphrased intent. Ships no hooks.",
+      "category": "writing",
+      "keywords": [
+        "writing",
+        "humanization",
+        "ai-detection",
+        "linter",
+        "editing"
+      ],
+      "strict": true
     }
   ]
 }
