@@ -23,8 +23,8 @@
         "authoring"
       ],
       "strict": true,
-      "ref": "v1.0.0",
-      "sha": "82d3bc57a87e8e31433de2336a9087ec6d9db034"
+      "ref": "v1.0.1",
+      "sha": "3ccffaccfc6468632f4be4cc0e2697f963b4499d"
     },
     {
       "name": "governance-gates",
