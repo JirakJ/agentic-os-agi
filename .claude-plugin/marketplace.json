@@ -186,7 +186,9 @@
         "linter",
         "editing"
       ],
-      "strict": true
+      "strict": true,
+      "ref": "v0.1.0",
+      "sha": "87fc54a82dfe8db6ab6a5c810136d84a5297a4f7"
     }
   ]
 }
