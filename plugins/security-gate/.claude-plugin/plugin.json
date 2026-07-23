@@ -1,0 +1,18 @@
+{
+  "name": "security-gate",
+  "version": "0.1.0",
+  "description": "On-demand AI security review layer modeled on Claude Security: contextual, data-flow-aware vulnerability scanning, adversarial validation of every finding, and human-gated patch proposals. Complements core-guardrails' mechanical gitleaks/semgrep/osv-scanner Stop-hook gate with reasoning a pattern scanner cannot do. Ships no hooks (ADR-0022, ADR-0026) - invoked deliberately via /security-review, never fires on its own.",
+  "author": {
+    "name": "Jakub Jirak",
+    "url": "https://jakubjirak.com"
+  },
+  "repository": "https://github.com/jakubjirak/jj-agentic-os",
+  "license": "MIT",
+  "keywords": [
+    "security",
+    "code-review",
+    "vulnerability",
+    "data-flow",
+    "adversarial-validation"
+  ]
+}
