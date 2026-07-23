@@ -2,6 +2,12 @@
 
 Derived from Conventional Commits by git-cliff. Do not edit by hand.
 
+## 2.0.1 — 2026-07-23
+
+### Documentation
+
+- **governance-gates**: Add README
+
 ## 2.0.0 — 2026-07-19
 
 ### Features
