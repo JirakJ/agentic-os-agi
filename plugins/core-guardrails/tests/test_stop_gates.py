@@ -166,3 +166,35 @@ def test_missing_node_fails_open_as_advisory(tmp_path):
                      {"JJ_GATE_I18N_COMPLETE": "enforce", "PATH": f"/usr/bin:/bin:{py_dir}"})
     assert r.returncode == 0
     assert "node is not on PATH" in r.stdout
+
+
+# ---- test-gate: preflight.toml [commands].test wins over autodetection (ADR-0029) ----
+
+def _seed_scoped_repo(tmp_path: pathlib.Path, scoped_cmd: str) -> pathlib.Path:
+    """package.json whose `npm test` always fails, plus a preflight.toml scoped command.
+    If the vendored script still autodetected `npm test`, the gate would block."""
+    repo = make_repo(tmp_path)
+    (repo / "package.json").write_text(json.dumps(
+        {"name": "t", "version": "0.0.0", "scripts": {"test": "exit 7"}}))
+    (repo / "preflight.toml").write_text(
+        f'languages = ["node"]\n\n[commands]\nbuild = "true"\ntest = "{scoped_cmd}"\n')
+    return repo
+
+
+def test_test_gate_prefers_preflight_scoped_command(tmp_path):
+    repo = _seed_scoped_repo(tmp_path, "true")
+    payload = {"session_id": "t", "cwd": str(repo), "hook_event_name": "Stop",
+               "stop_hook_active": False}
+    r = run_wrapper("20_test_gate.py", payload, tmp_path, {"JJ_GATE_TEST_GATE": "enforce"},
+                     timeout=60)
+    assert r.returncode == 0, r.stderr
+
+
+def test_test_gate_failing_scoped_command_still_blocks(tmp_path):
+    repo = _seed_scoped_repo(tmp_path, "exit 3")
+    payload = {"session_id": "t", "cwd": str(repo), "hook_event_name": "Stop",
+               "stop_hook_active": False}
+    r = run_wrapper("20_test_gate.py", payload, tmp_path, {"JJ_GATE_TEST_GATE": "enforce"},
+                     timeout=60)
+    assert r.returncode == 2
+    assert "TEST GATE FAILED" in r.stderr
