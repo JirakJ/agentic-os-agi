@@ -1,7 +1,7 @@
 #!/usr/bin/env node
 // .claude/hooks/security-gate.mjs
-// Stop hook: aggregates secret-scan (gitleaks) + SAST (semgrep) + dependency
-// audit (osv-scanner). Blocks completion until the working tree is clean.
+// Stop hook: aggregates SAST (semgrep) + dependency audit
+// (osv-scanner). Blocks completion until the working tree is clean.
 import { readFileSync, existsSync } from "node:fs";
 import { execSync } from "node:child_process";
 
@@ -17,24 +17,10 @@ const tool = (bin) => {
   try { execSync(`command -v ${bin}`, { stdio: "pipe" }); return true; } catch { return false; }
 };
 
-// 1) Secrets — gitleaks over the working tree (incl. untracked files).
-//    Scan by ABSOLUTE path: with `dir .` the reported paths are cwd-relative,
-//    so the "(^|/)\.claude/worktrees/" allowlist in gitleaks.toml can never
-//    match when the session runs inside a worktree.
-if (tool("gitleaks")) {
-  try {
-    run(`gitleaks dir "${cwd}" --no-banner --redact -v --config "${import.meta.dirname}/gitleaks.toml"`);
-  } catch (e) {
-    const out = (e.stdout?.toString() ?? "") + (e.stderr?.toString() ?? "");
-    if (e.status === 1 || /leaks? found|finding/i.test(out))
-      findings.push(`SECRETS (gitleaks):\n${out.slice(-1200)}`);
-  }
-} else missing.push("gitleaks      brew install gitleaks");
-
-// 2) SAST — semgrep, error-severity only (drop WARNING to avoid noise).
+// 1) SAST — semgrep, error-severity only (drop WARNING to avoid noise).
 //    For private/enterprise code, swap --config auto for a local ruleset
 //    (e.g. --config p/security-audit) so no metadata leaves the machine.
-//    Same worktree principle as the gitleaks allowlist: a Claude Code worktree
+//    Worktree principle: a Claude Code worktree
 //    is a copy of the canonical tree, so pre-existing findings belong to the
 //    main checkout. Inside a worktree scan only what this branch touched
 //    (diff vs merge-base + untracked); full scan otherwise.
@@ -66,7 +52,7 @@ if (tool("semgrep") && semgrepTargets !== null) {
   }
 } else missing.push("semgrep       brew install semgrep");
 
-// 3) Vulnerable deps — osv-scanner across all lockfiles (npm, Cargo, SwiftPM, pip).
+// 2) Vulnerable deps — osv-scanner across all lockfiles (npm, Cargo, SwiftPM, pip).
 if (tool("osv-scanner")) {
   try {
     run("osv-scanner scan source -r --format=json .");

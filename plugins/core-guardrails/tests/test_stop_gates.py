@@ -1,7 +1,7 @@
 """Stop-family gates: security-gate, test-gate and i18n-complete brought into the
 dispatcher runtime (ADR-0027). Real dispatch.sh, real node, real vendored scripts - no
 mocks. i18n-complete is used as the deterministic seeded-failure case because it needs no
-external scanner (gitleaks/semgrep/osv-scanner/a test runner): a Stop-level check only
+external scanner (semgrep/osv-scanner/a test runner): a Stop-level check only
 walks .xcstrings files (see vendor/i18n-complete.mjs collectTargets()), so a String
 Catalog with one untranslated key is a reliable, fast, dependency-free failure."""
 import json

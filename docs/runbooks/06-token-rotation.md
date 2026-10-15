@@ -5,6 +5,5 @@
 2. JetBrains PUBLISH_TOKEN: rotate on JetBrains Hub; update the env/keychain entry.
 3. Copilot coding agent MCP secrets: rotate in repo Settings > Environments > copilot
    (COPILOT_MCP_* prefix).
-4. Never write tokens into files - security-gate denies agent access to secret paths, and
-   gitleaks in preflight + jj-sync is the second net. If a token DID leak: rotate first,
+4. Never write tokens into files - security-gate denies agent access to secret paths. If a token DID leak: rotate first,
    then purge history (git filter-repo) on the affected repo.

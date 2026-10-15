@@ -1,5 +1,5 @@
 # Runbook: new machine / full recovery
-1. Install: git, python3.11+, uv, lefthook, gitleaks, osv-scanner, opengrep (or semgrep).
+1. Install: git, python3.11+, uv, lefthook, osv-scanner, opengrep (or semgrep).
 2. Clone jj-agentic-os; clone the PRIVATE vault to ~/jj-vault.
 3. `bash scripts/bootstrap.sh` (idempotent: gates seed, git hooks, preflight.toml).
 4. Claude Code: /plugin marketplace add + install the four plugins; restart.

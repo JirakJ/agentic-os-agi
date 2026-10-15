@@ -24,7 +24,7 @@ TIMEOUT_BIN="$(command -v timeout || command -v gtimeout || true)"
 
 # Per-sub-hook wall-clock budget. PreToolUse/PostToolUse/etc. sub-hooks are fast pattern
 # matches (25s is generous); Stop's security-gate/test-gate/i18n-complete (ADR-0027) shell
-# out to gitleaks/semgrep/osv-scanner or a full test suite and need real minutes. This is
+# out to semgrep/osv-scanner or a full test suite and need real minutes. This is
 # still the one shared dispatcher - only the budget is event-aware, not the mechanism.
 case "$EVENT" in
   Stop) SUBHOOK_TIMEOUT=210 ;;

@@ -11,7 +11,7 @@ vulnerability — the dispatch prompt that launched you names both. You are one 
 target; do not drift into the others' territory, and do not try to cover everything yourself.
 
 You complement, not duplicate, the mechanical Stop-hook gate in `core-guardrails`
-(gitleaks/semgrep/osv-scanner, ADR-0017/ADR-0022): that gate is fast pattern-matching that catches
+(semgrep/osv-scanner, ADR-0017/ADR-0022): that gate is fast pattern-matching that catches
 what a regex can see in one file. You do what a regex cannot — read across files, follow a value
 from where it enters the program to where it is used, and judge whether the surrounding code
 actually makes the pattern exploitable.
