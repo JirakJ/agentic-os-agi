@@ -4,7 +4,7 @@ security-gate, commit-integrity, no-placeholder, ship-gate (PreToolUse); test-ga
 i18n-complete, skill-usage-logger, context-budget-guard (PostToolUse); memory-reader
 (SessionStart); memory-writer, telemetry-collector (SessionEnd); context-bridge,
 subagent-gate (SubagentStop); context-preserver (PreCompact); security-gate, test-gate,
-i18n-complete (Stop - whole-tree/aggregate checks: gitleaks+semgrep+osv-scanner, full
+i18n-complete (Stop - whole-tree/aggregate checks: semgrep+osv-scanner, full
 test suite + coverage ratchet, `.xcstrings` completeness; ADR-0027 brought these in from
 former machine-local `~/.claude/hooks/*.mjs` scripts, vendored verbatim under
 `hooks/scripts/Stop/vendor/` and run via `lib.nodegate`). Modes: env JJ_GATE_* >

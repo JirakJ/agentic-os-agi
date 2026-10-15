@@ -16,7 +16,7 @@ loop guard still applies), then translates the script's exit code through gates.
 
 A missing `node` binary or a timeout fails OPEN (advisory + telemetry), matching the
 dispatcher's own "a broken hook must never break the session" rule; a vendored script
-missing an external scanner (gitleaks/semgrep/osv-scanner/test runner) already reports
+missing an external scanner (semgrep/osv-scanner/test runner) already reports
 that gracefully on its own and exits 0.
 """
 from __future__ import annotations

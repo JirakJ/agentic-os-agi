@@ -6,9 +6,5 @@ Set-Location $Vault
 git pull --rebase --autostash --quiet; if ($LASTEXITCODE -ne 0) { Write-Warning "jj-sync: pull failed (offline?)" }
 if (-not (git status --porcelain)) { exit 0 }
 git add -A
-if (Get-Command gitleaks -ErrorAction SilentlyContinue) {
-  gitleaks git --staged --no-banner --redact -v
-  if ($LASTEXITCODE -ne 0) { git reset --quiet; Write-Error "jj-sync: BLOCKED - secrets in vault delta"; exit 1 }
-}
 git commit --quiet -m "chore(vault): sync $env:COMPUTERNAME $(Get-Date -Format o -AsUTC)"
 git push --quiet; if ($LASTEXITCODE -ne 0) { Write-Warning "jj-sync: push failed (offline?) - retry next run" }

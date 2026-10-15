@@ -6,7 +6,7 @@ argument-hint: "[<path> | --diff <ref> | (default: current branch's changes agai
 Run the four-pillar review Claude Security's model is built on — contextual analysis, adversarial
 validation, patch generation, human-gated approval — over `$ARGUMENTS`. This is reasoning, not
 another mechanical gate: it complements the always-on `core-guardrails` Stop-hook scanner
-(gitleaks/semgrep/osv-scanner), which catches what a regex can see in one file, with what only a
+(semgrep/osv-scanner), which catches what a regex can see in one file, with what only a
 model reading across files can catch — missing auth checks, taint that crosses file boundaries,
 "vulnerable-looking" code that is actually unreachable. `security-gate` ships no hooks and never
 fires on its own (ADR-0026); it runs only because this command was invoked.

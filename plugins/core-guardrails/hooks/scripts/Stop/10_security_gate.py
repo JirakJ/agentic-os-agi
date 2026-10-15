@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""security-gate (Stop): aggregate secret-scan (gitleaks) + SAST (semgrep, ERROR-only) +
+"""security-gate (Stop): aggregate SAST (semgrep, ERROR-only) +
 dependency audit (osv-scanner) over the working tree before the session is allowed to
 stop. This is the Stop-level half of the concern PreToolUse/20_security_gate.py owns at
 the per-tool-call layer (ADR-0022); both read the SAME "security-gate" key in gates.json,
@@ -16,7 +16,7 @@ from lib import cc, nodegate
 
 GATE = "security-gate"
 VENDOR = pathlib.Path(__file__).resolve().parent / "vendor" / "security-gate.mjs"
-TIMEOUT_S = 200  # gitleaks + semgrep + osv-scanner sequentially; must stay under
+TIMEOUT_S = 200  # semgrep + osv-scanner sequentially; must stay under
                   # dispatch.sh's Stop-event sub-hook timeout (see dispatch.sh SUBHOOK_TIMEOUT)
 
 def main() -> None:

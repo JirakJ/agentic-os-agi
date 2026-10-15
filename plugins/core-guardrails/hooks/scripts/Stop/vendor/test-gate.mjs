@@ -18,7 +18,13 @@ const block = (msg) => { console.error(msg); process.exit(2); };
 
 let coverage = null;
 try {
-  if (has("Package.swift")) { sh("swift test --enable-code-coverage -q"); coverage = swiftCov(); }
+  const scoped = preflightTestCmd();
+  // preflight.toml [commands].test is the repo's own scoped suite - the same key the
+  // PostToolUse per-edit gate runs. It wins over autodetection so a repo whose full
+  // `npm test` (e.g. a multi-browser Playwright matrix) cannot fit the Stop budget can
+  // still keep a green, meaningful gate (ADR-0029). Coverage ratchet is unchanged.
+  if (scoped) { sh(scoped); coverage = has("package.json") ? jsCov() : null; }
+  else if (has("Package.swift")) { sh("swift test --enable-code-coverage -q"); coverage = swiftCov(); }
   else if (has("Cargo.toml")) { sh("cargo test -q"); coverage = cargoCov(); }
   else if (has("package.json") && JSON.parse(readFileSync(join(cwd, "package.json"), "utf8")).scripts?.test) {
     sh("npm test --silent"); coverage = jsCov();
@@ -59,6 +65,23 @@ function swiftCov() {
 function cargoCov() {
   try { return JSON.parse(sh("cargo llvm-cov --json --summary-only")).data?.[0]?.totals?.lines?.percent ?? null; }
   catch { return null; } // cargo-llvm-cov not installed → tests still gate, coverage skipped
+}
+// Minimal reader for `[commands] test = "..."` in the repo's preflight.toml — no TOML
+// dependency; only a basic (or literal) string on its own line inside that section counts.
+function preflightTestCmd() {
+  const p = join(cwd, "preflight.toml");
+  if (!existsSync(p)) return null;
+  let section = "";
+  for (const raw of readFileSync(p, "utf8").split("\n")) {
+    const line = raw.trim();
+    if (!line || line.startsWith("#")) continue;
+    const head = line.match(/^\[([^\]]+)\]$/);
+    if (head) { section = head[1].trim(); continue; }
+    if (section !== "commands") continue;
+    const kv = line.match(/^test\s*=\s*(?:"((?:[^"\\]|\\.)*)"|'([^']*)')/);
+    if (kv) return (kv[1] ?? kv[2]).replace(/\\"/g, '"').trim() || null;
+  }
+  return null;
 }
 function jsCov() {
   const p = join(cwd, "coverage", "coverage-summary.json");

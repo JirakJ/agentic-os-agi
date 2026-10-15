@@ -11,7 +11,7 @@ until a human approves each one). See ADR-0026.
 ## How this relates to `core-guardrails`
 
 `core-guardrails` already ships a security gate — a mechanical, always-on `PreToolUse` hook
-(`20_security_gate.py`) plus the commit-integrity path's gitleaks/semgrep/osv-scanner sweep
+(`20_security_gate.py`) plus the commit-integrity path's semgrep/osv-scanner sweep
 (ADR-0017). That gate is fast and deterministic: it catches a hardcoded key, a destructive `rm
 -rf`, or a known-vulnerable dependency by pattern, and it fires on every relevant tool call
 whether anyone asked for it or not.

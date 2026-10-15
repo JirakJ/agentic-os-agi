@@ -7,7 +7,7 @@ The prototype is treated as internet-facing from commit one. Controls are enforc
 - **Output encoding** — raw HTML only via `src/shared/SafeHtml.tsx` (DOMPurify). `react/no-danger` + `no-unsanitized/*` ban it everywhere else.
 - **Input validation** — all external input (env, form data, storage, API responses) validated with zod at the boundary.
 - **CSP** — `default-src 'self'`, no `unsafe-inline` for scripts, shipped by the dev/preview servers (see `vite.config.ts`).
-- **Secrets** — none in the repo. Config via `.env` (git-ignored) + `src/config/env.ts`. `gitleaks` gate over the whole tree including `.prompts/`.
+- **Secrets** — none in the repo. Config via `.env` (git-ignored) + `src/config/env.ts`.
 - **Dependencies** — `pnpm audit --audit-level=high` fails the build on high/critical advisories.
 - **Client storage** — sensitive data never in `localStorage`; only non-sensitive UI state.
 

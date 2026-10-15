@@ -161,7 +161,7 @@
     {
       "name": "security-gate",
       "source": "./plugins/security-gate",
-      "description": "On-demand AI security review: contextual, data-flow-aware vulnerability scanning with adversarial validation and human-gated patch proposals. Complements core-guardrails' mechanical gitleaks/semgrep/osv-scanner Stop-hook gate. Ships no hooks.",
+      "description": "On-demand AI security review: contextual, data-flow-aware vulnerability scanning with adversarial validation and human-gated patch proposals. Complements core-guardrails' mechanical semgrep/osv-scanner Stop-hook gate. Ships no hooks.",
       "category": "security",
       "keywords": [
         "security",

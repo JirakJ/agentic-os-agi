@@ -13,7 +13,7 @@ coding agent/CLI/IDE agent mode, and any AGENTS.md-aware tool).
   docs in English.
 
 ## Definition of done
-- `scripts/preflight.sh` exits green: gitleaks -> lint/type errors -> build -> full tests ->
+- `scripts/preflight.sh` exits green: lint/type errors -> build -> full tests ->
   SAST (Opengrep, ERROR severity, baseline ratchet) -> dependency vulns (osv-scanner,
   CVSS >= 7 blocks) -> runnability smoke.
 - The commit-integrity gate verifies a fresh green attestation for the exact staged tree

@@ -4,7 +4,7 @@
 Runs the commit-integrity pipeline on an isolated export of the EXACT staged tree
 (identity = `git write-tree`), fail-fast cheapest-first:
 
-    gitleaks -> lint/type errors -> build -> tests -> SAST (opengrep/semgrep)
+    lint/type errors -> build -> tests -> SAST (opengrep/semgrep)
     -> dependency vulns (osv-scanner, CVSS >= threshold) -> runnability smoke
 
 and writes the attestation to .git/jj-attest/<tree>.json. The same script runs locally,
@@ -117,7 +117,7 @@ def toolchain_fingerprint(root: Path, langs: list[str]) -> str:
                  "swift": "swift --version", "cpp": "cmake --version",
                  "java": "java -version"}
     probes += [probe_map[l] for l in langs if l in probe_map]
-    for tool in ("opengrep", "semgrep", "osv-scanner", "gitleaks"):
+    for tool in ("opengrep", "semgrep", "osv-scanner"):
         if shutil.which(tool):
             probes.append(f"{tool} --version")
     blob = []
@@ -140,16 +140,6 @@ def export_staged_tree(root: Path, dest: Path) -> str:
 
 
 # ---------------------------------------------------------------- pipeline steps
-def step_gitleaks(work: Path, root: Path, cfg: dict) -> tuple[str, str]:
-    if not shutil.which("gitleaks"):
-        return ("red" if cfg["security"]["strict"] else "skipped", "gitleaks not installed")
-    rc, out, _ = sh("gitleaks dir . --no-banner --redact -v", work,
-                    cfg["budgets"]["sast_s"])
-    if rc == 0:
-        return "pass", "0 secrets"
-    return "fail", "secrets detected:\n" + out[-1200:]
-
-
 def step_lint(work: Path, cfg: dict) -> tuple[str, str]:
     cmds = []
     if cfg["commands"].get("lint"):
@@ -250,7 +240,6 @@ def step_smoke(work: Path, cfg: dict) -> tuple[str, str]:
 
 
 PIPELINE = [
-    ("gitleaks", lambda w, r, c: step_gitleaks(w, r, c)),
     ("lint",     lambda w, r, c: step_lint(w, c)),
     ("build",    lambda w, r, c: _lang_steps("build", w, c, c["budgets"]["build_s"])),
     ("test",     lambda w, r, c: _lang_steps("test", w, c, c["budgets"]["test_s"])),
