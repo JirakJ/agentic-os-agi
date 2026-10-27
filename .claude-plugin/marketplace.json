@@ -24,7 +24,7 @@
       ],
       "strict": true,
       "ref": "v1.0.1",
-      "sha": "3ccffaccfc6468632f4be4cc0e2697f963b4499d"
+      "sha": "7238ce93cf973d4a22c50a9438c6ee5c573ae611"
     },
     {
       "name": "governance-gates",
@@ -40,7 +40,7 @@
       ],
       "strict": true,
       "ref": "v2.0.1",
-      "sha": "850cf9163956b4ce3ba1ca387dd590cea6f44e7a"
+      "sha": "997971651e25ac80f50e5c55133c2c7796fa41d5"
     },
     {
       "name": "memory-obsidian",
@@ -56,7 +56,7 @@
       ],
       "strict": true,
       "ref": "v1.0.1",
-      "sha": "6b26743e3bb73c7820f2fcf6d066cab133a42017"
+      "sha": "be32266d46e8609c14d4e933d667707435bb9370"
     },
     {
       "name": "self-evolution",
@@ -72,7 +72,7 @@
       ],
       "strict": true,
       "ref": "v1.1.1",
-      "sha": "c2faeb44d5b5b2488984584040099f094df70c2c"
+      "sha": "586def51f0d305ec8e56381131316b296638a3e3"
     },
     {
       "name": "long-horizon",
@@ -88,7 +88,7 @@
       ],
       "strict": true,
       "ref": "v1.0.1",
-      "sha": "afb0f3df5a3e8e2763fb216512ca4def6c6fbc67"
+      "sha": "61f6f15276fd534ed61e91e22d8de9fb85878756"
     },
     {
       "name": "autonomic-loop",
@@ -104,7 +104,7 @@
       ],
       "strict": true,
       "ref": "v1.0.1",
-      "sha": "e767a421e9eb3a685cfba988ba114eb85c19849a"
+      "sha": "8bd9056ce92afd6c424ab61c692ee6ca35217d53"
     },
     {
       "name": "core-guardrails",
@@ -113,7 +113,7 @@
       "category": "governance",
       "strict": true,
       "ref": "v4.0.1",
-      "sha": "93c4625daf2835da9f25e6c314850c4011c024a0"
+      "sha": "4f61669c5867ded644344eae6ebbee88ba51f041"
     },
     {
       "name": "memory-fabric",
@@ -122,7 +122,7 @@
       "category": "memory",
       "strict": true,
       "ref": "v3.0.2",
-      "sha": "68b7fcca02338905fefa7ea21a6b0d4cec65c8be"
+      "sha": "5f8ce59fc943acd32711e36b1624b638bd316660"
     },
     {
       "name": "business-ops",
@@ -131,7 +131,7 @@
       "category": "business",
       "strict": true,
       "ref": "v3.0.2",
-      "sha": "4c18c26f595a1caa010cc8d8ddf5fecc7d4cd755"
+      "sha": "f10a16aeed5a3003e6f1f059dbad08aeb1683931"
     },
     {
       "name": "day-job",
@@ -140,7 +140,7 @@
       "category": "work",
       "strict": true,
       "ref": "v3.0.2",
-      "sha": "9578a4a7b5e72e50c284cd4b4021cfba5a3d46ff"
+      "sha": "ff2eb430cfcc4271b0e08ddd98785a7202a6c9c5"
     },
     {
       "name": "security-gate",
@@ -156,7 +156,7 @@
       ],
       "strict": true,
       "ref": "v0.1.1",
-      "sha": "1743a9c78ea5598b3d70602689466ada760a24f5"
+      "sha": "aa55f0c341db07a9fb5a5d1867743fb9db747df7"
     },
     {
       "name": "anti-ai",
@@ -172,7 +172,7 @@
       ],
       "strict": true,
       "ref": "v0.1.1",
-      "sha": "f83d108654892aaa92b20304a0bc5ce82d80fa3b"
+      "sha": "2616fe3c09344dda4b48733e4dddf64839413a4f"
     }
   ]
 }
