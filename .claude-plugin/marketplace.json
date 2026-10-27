@@ -139,8 +139,8 @@
       "description": "Enterprise day-job skills: weekly status reports, Copilot rollout ops, meeting notes to actions.",
       "category": "work",
       "strict": true,
-      "ref": "v3.0.1",
-      "sha": "61d3220d147de21cb5907f1a5a44f091b626734f"
+      "ref": "v3.0.2",
+      "sha": "9578a4a7b5e72e50c284cd4b4021cfba5a3d46ff"
     },
     {
       "name": "security-gate",
