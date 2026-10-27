@@ -155,8 +155,8 @@
         "adversarial-validation"
       ],
       "strict": true,
-      "ref": "v0.1.0",
-      "sha": "3764c88932c135014f9a6406af4cf972200d3998"
+      "ref": "v0.1.1",
+      "sha": "1743a9c78ea5598b3d70602689466ada760a24f5"
     },
     {
       "name": "anti-ai",
