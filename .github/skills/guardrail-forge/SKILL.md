@@ -3,7 +3,7 @@ name: guardrail-forge
 description: Create, tune, and promote guardrail hooks using telemetry. Use whenever a gate misfires (false positive), the user wants a new rule enforced automatically, a gate feels too strict or too loose, or when deciding to promote a dry-run gate to enforce. Also use for the weekly guardrail review and whenever /gate-status shows an FP proxy over 2%.
 license: MIT
 metadata:
-  version: "3.0.0"
+  version: "3.0.1"
 ---
 
 # Guardrail Forge
@@ -22,7 +22,12 @@ Meta-skill: evolve the guardrail layer safely. Gates are code + config under
 
 ## Adding a new gate (reproducible procedure)
 1. Pick the event: PreToolUse (can deny), PostToolUse (can block-and-feed-back),
-   SubagentStop (can block), SessionStart/End (observe/inject only).
+   SubagentStop (can block), SessionStart/End (observe/inject only), Stop (can block
+   session end - reserve for whole-tree/aggregate checks too slow for PreToolUse/
+   PostToolUse; `dispatch.sh`'s per-sub-hook timeout is event-scoped, 210s for Stop
+   vs. 25s elsewhere, so a Stop gate that shells out has real room, but keep it well
+   under that ceiling - see ADR-0027 and `Stop/10_security_gate.py` for the pattern of
+   delegating to a vendored external tool via `lib.nodegate`).
 2. Copy the closest existing hook in `hooks/scripts/<Event>/` as `NN_name.py`
    (numeric prefix = execution order). Use `lib.cc` for I/O, `lib.gates` for mode,
    `lib.telem.emit()` for every decision, `lib.allowlists` for patterns.

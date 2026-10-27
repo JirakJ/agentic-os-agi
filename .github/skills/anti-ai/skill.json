@@ -1,0 +1,9 @@
+{
+  "name": "anti-ai",
+  "version": "0.1.0",
+  "description": "Rewrite AI-generated text to pass as human — to readers and to statistical detectors — using validated recipes (discourse fracture, interleave protocol) plus a deterministic linter (scripts/tellscan.mjs) that machine-verifies the self-check. Explicit invocation only: user types /anti-ai or names the skill; never fires on paraphrased intent like 'humanize this'.",
+  "layer": "L1-core",
+  "dependencies": {},
+  "adr": ["ADR-0028"],
+  "stability": "experimental"
+}
