@@ -1,12 +1,12 @@
 ---
-status: accepted
+status: superseded
 date: 2026-07-08
 decision-makers: [Jakub Jirak]
 consulted: []
 informed: []
 affects: [manifest/proto-forge]
 supersedes: []
-superseded-by: []
+superseded-by: [ADR-0030]
 ---
 
 # ADR-0015 — Ship proto-forge as a marketplace plugin wrapping the vendored skill

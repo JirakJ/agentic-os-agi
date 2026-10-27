@@ -107,22 +107,6 @@
       "sha": "e767a421e9eb3a685cfba988ba114eb85c19849a"
     },
     {
-      "name": "proto-forge",
-      "source": "./plugins/proto-forge",
-      "description": "Brief -> deterministic security-first React 19 + TypeScript + Vite prototype: owned component library, full test suite, WCAG 2.2 AA, i18n, ADRs and a pnpm verify gate suite.",
-      "category": "workflow",
-      "keywords": [
-        "prototype",
-        "react",
-        "vite",
-        "scaffolding",
-        "testing"
-      ],
-      "strict": true,
-      "ref": "v0.2.0",
-      "sha": "8e65417783945c26097d8237608a8a07200f2376"
-    },
-    {
       "name": "core-guardrails",
       "source": "./plugins/core-guardrails",
       "description": "Production gates: commit-integrity attestation, security, no-placeholder, ship lockstep, telemetry, self-evolution meta-skills (skill-forge, guardrail-forge).",
