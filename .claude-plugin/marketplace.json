@@ -119,8 +119,8 @@
         "testing"
       ],
       "strict": true,
-      "ref": "v0.1.4",
-      "sha": "9cfeb01d54b8749fff19f398288e88680a9e7687"
+      "ref": "v0.2.0",
+      "sha": "8e65417783945c26097d8237608a8a07200f2376"
     },
     {
       "name": "core-guardrails",
