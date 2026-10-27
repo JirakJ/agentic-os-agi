@@ -1,6 +1,6 @@
 {
   "name": "day-job",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Enterprise day-job skills: ISO-week status report (W##), GitHub Copilot rollout operations, meeting notes to decisions and actions.",
   "author": {
     "name": "Jakub Jirak",

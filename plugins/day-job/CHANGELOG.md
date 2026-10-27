@@ -2,6 +2,12 @@
 
 Derived from Conventional Commits by git-cliff. Do not edit by hand.
 
+## 3.0.2 — 2026-10-27
+
+### Documentation
+
+- **skill/copilot-rollout-ops**: Drop the rollout headcount from the description
+
 ## 3.0.1 — 2026-07-19
 
 ### Features
