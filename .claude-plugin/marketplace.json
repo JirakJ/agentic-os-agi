@@ -112,8 +112,8 @@
       "description": "Production gates: commit-integrity attestation, security, no-placeholder, ship lockstep, telemetry, self-evolution meta-skills (skill-forge, guardrail-forge).",
       "category": "governance",
       "strict": true,
-      "ref": "v4.0.0",
-      "sha": "89b91abdbac155352c76c72e9f2ba0d35f09afa3"
+      "ref": "v4.0.1",
+      "sha": "93c4625daf2835da9f25e6c314850c4011c024a0"
     },
     {
       "name": "memory-fabric",
