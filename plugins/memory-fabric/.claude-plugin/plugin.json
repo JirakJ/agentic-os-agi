@@ -1,6 +1,6 @@
 {
   "name": "memory-fabric",
-  "version": "3.0.1",
+  "version": "3.0.2",
   "description": "Two-tier persistent memory: git repo for executable assets, Obsidian vault for long-term knowledge. Vault template, capture queue, retro and compaction skills, cross-platform jj-sync.",
   "author": {
     "name": "Jakub Jirak",

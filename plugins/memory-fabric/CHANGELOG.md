@@ -2,6 +2,16 @@
 
 Derived from Conventional Commits by git-cliff. Do not edit by hand.
 
+## 3.0.2 — 2026-10-27
+
+### Chores
+
+- Remove gitleaks from every gate, template and instruction
+
+### Documentation
+
+- **skill/obsidian**: Describe the confidential boundary generically
+
 ## 3.0.1 — 2026-07-19
 
 ### Features
