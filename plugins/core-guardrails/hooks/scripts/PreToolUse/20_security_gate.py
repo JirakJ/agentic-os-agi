@@ -2,7 +2,7 @@
 """security-gate: deny secret-path access and destructive shell commands.
 
 Always enforcing; fails CLOSED. Covers Read/Edit/Write on secret paths, destructive Bash
-patterns, cross-boundary writes (Employer/client-confidential folders), and cat/grep of secret
+patterns, cross-boundary writes (employer/client-confidential folders), and cat/grep of secret
 files inside Bash commands.
 """
 import re
