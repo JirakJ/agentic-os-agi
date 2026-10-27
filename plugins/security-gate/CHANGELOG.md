@@ -2,12 +2,23 @@
 
 Derived from Conventional Commits by git-cliff. Do not edit by hand.
 
+## 0.1.1 — 2026-10-27
+
+### Chores
+
+- Remove gitleaks from every gate, template and instruction
+
 ## 0.1.0 — 2026-07-23
+
+### Documentation
+
+- **security-gate**: Add README and 0.1.0 changelog
 
 ### Features
 
-- **security-gate**: Add the on-demand AI security review layer (ADR-0026) — `/security-review`
-  runs contextual, data-flow-aware scanning across five dimensions in parallel, adversarially
-  validates every finding, and proposes human-gated patches. Ships no hooks; complements
-  `core-guardrails`' mechanical gitleaks/semgrep/osv-scanner Stop-hook gate rather than
-  duplicating it (ADR-0022).
+- **command/security-review**: Add the /security-review orchestration command
+- **agent/security-validator**: Add adversarial finding validator
+- **agent/security-scanner**: Add contextual per-dimension security scanner
+- **manifest/security-gate**: Register the security-gate plugin
+
+
