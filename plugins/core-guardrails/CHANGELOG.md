@@ -2,6 +2,17 @@
 
 Derived from Conventional Commits by git-cliff. Do not edit by hand.
 
+## 4.0.1 — 2026-10-27
+
+### Chores
+
+- Remove gitleaks from every gate, template and instruction
+
+### Fixes
+
+- **core-guardrails**: Name the confidential vault boundary generically
+- **hook/stop-gates**: Test-gate runs preflight.toml [commands].test before autodetecting (ADR-0029)
+
 ## 4.0.0 — 2026-07-23
 
 ### Documentation

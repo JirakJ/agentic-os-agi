@@ -1,6 +1,6 @@
 {
   "name": "core-guardrails",
-  "version": "4.0.0",
+  "version": "4.0.1",
   "description": "Production gates behind one dispatcher: commit-integrity (attestation), security-gate, gate-protection, no-placeholder, ship-gate lockstep, test-gate, i18n-complete, context-budget-guard, telemetry, memory hooks, subagent gates, PreCompact preserver. Plus skill-forge and guardrail-forge meta-skills.",
   "author": {
     "name": "Jakub Jirak",
