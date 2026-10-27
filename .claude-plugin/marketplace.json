@@ -121,8 +121,8 @@
       "description": "Two-tier persistent memory: git core + Obsidian vault. Capture, retro, compaction, cross-platform sync.",
       "category": "memory",
       "strict": true,
-      "ref": "v3.0.1",
-      "sha": "54acfad8ce07fe96a76f2e1263265a2815f56316"
+      "ref": "v3.0.2",
+      "sha": "68b7fcca02338905fefa7ea21a6b0d4cec65c8be"
     },
     {
       "name": "business-ops",
