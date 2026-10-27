@@ -130,8 +130,8 @@
       "description": "Solopreneur operations: content pipeline, consulting invoicing, JetBrains plugin releases, product launches.",
       "category": "business",
       "strict": true,
-      "ref": "v3.0.1",
-      "sha": "e3121b0897de746f92dd45f2e1b6f66a0ef19d39"
+      "ref": "v3.0.2",
+      "sha": "4c18c26f595a1caa010cc8d8ddf5fecc7d4cd755"
     },
     {
       "name": "day-job",
