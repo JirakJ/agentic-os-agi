@@ -6,7 +6,7 @@ consulted: []
 informed: []
 affects: [manifest/proto-forge]
 supersedes: []
-superseded-by: [ADR-0030]
+superseded-by: [0030]
 ---
 
 # ADR-0015 — Ship proto-forge as a marketplace plugin wrapping the vendored skill

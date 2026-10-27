@@ -5,7 +5,7 @@ decision-makers: [Jakub Jirak]
 consulted: []
 informed: []
 affects: [manifest/proto-forge, marketplace]
-supersedes: [ADR-0015]
+supersedes: [0015]
 superseded-by: []
 ---
 
