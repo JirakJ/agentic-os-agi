@@ -36,7 +36,6 @@ of them — see ADR-0023 for what fits which context window.
 | **self-evolution** | A verification-gated self-improvement loop — a capability-eval harness with regression tracking, an experience miner over the audit trail, and a proposal engine that turns recurring patterns into governed capability proposals. Ships `evalctl.py`, `mine.py`, `propose.py`. |
 | **long-horizon** | Long-horizon autonomy — durable missions that outlive sessions with structural resumability at session start, an evidence-derived capability self-model, and a learning frontier ordering what to learn next. Ships `mission.py`, `selfmodel.py`, `frontier.py`. |
 | **autonomic-loop** | The autonomic nervous system — hook-driven policy that makes the loop self-triggering: core changes are verified before a turn may end (blocking on regression), sessions end by staging mined proposals, sessions start knowing the system's state. Kill-switchable. Ships `autonomic.py`. |
-| **proto-forge** | Brief → deterministic, security-first React 19 + TypeScript + Vite prototype: owned component library, full test suite, WCAG 2.2 AA, i18n from day one, per-ADR commits and a `pnpm verify` gate suite. |
 | **core-guardrails** | The gate runtime (ADR-0022) — numbered hook dispatch with enforcing/advisory modes, telemetry and a `/gate-unlock` override: security gate, commit-integrity attestation, no-placeholder, ship lockstep, test gate, context-budget guard. |
 | **memory-fabric** | The memory writer — crash-safe queue-based capture into a git-synced Obsidian vault, plus retro and compaction skills. Reads pair with `memory-obsidian`'s index (ADR-0021). |
 | **business-ops** | Solopreneur operations — content pipeline, consulting invoicing, JetBrains plugin releases, product launches. |
@@ -74,8 +73,8 @@ Opt-in — install deliberately, per context budget and need, not by default:
   pulls the rest in automatically; install only as far down the chain as the work needs.
 - `memory-obsidian` — the vault-backed retrieval layer (L3 read + L4 index). No declared
   dependencies; install it independently of the stack above.
-- `proto-forge` — the prototype-generation workflow. No declared dependencies; install only when
-  building a new prototype.
+- `proto-forge` — the prototype-generation workflow — ships from its own marketplace
+  (`/plugin marketplace add JirakJ/proto-forge`), see ADR-0030.
 
 ```bash
 # what a given runtime can actually afford

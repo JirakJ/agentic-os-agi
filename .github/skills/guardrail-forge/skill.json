@@ -1,11 +1,12 @@
 {
   "name": "guardrail-forge",
-  "version": "3.0.0",
+  "version": "3.0.1",
   "description": "Create, tune, and promote guardrail hooks using telemetry. Use whenever a gate misfires (false positive), the user wants a new rule enforced automatically, a gate feels too strict or too loose, or when deciding to promote a dry-run gate to enforce. Also use for the weekly guardrail review and whenever /gate-status shows an FP proxy over 2%.",
   "layer": "L1-core",
   "dependencies": {},
   "adr": [
-    "ADR-0022"
+    "ADR-0022",
+    "ADR-0027"
   ],
   "stability": "stable"
 }

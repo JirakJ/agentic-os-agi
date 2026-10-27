@@ -1,8 +1,0 @@
-{
-  "name": "proto-forge",
-  "version": "0.3.0",
-  "dependencies": {},
-  "adr": [
-    "ADR-0008"
-  ]
-}

@@ -51,5 +51,5 @@ commit_parsers = [
 ]
 
 commit_preprocessors = [
-  { pattern = "\\(#([0-9]+)\\)", replace = "([#${1}](https://github.com/jakubjirak/agentic-os/issues/${1}))" },
+  { pattern = "\\(#([0-9]+)\\)", replace = "([#${1}](https://github.com/JirakJ/agentic-os-agi/issues/${1}))" },
 ]
