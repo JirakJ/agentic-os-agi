@@ -17,7 +17,8 @@ venv/
 
 .DS_Store
 .idea/
-.vscode/
+.vscode/*
+!.vscode/mcp.json
 
 # Never. The secret guard blocks reads; staging is on you.
 .env
