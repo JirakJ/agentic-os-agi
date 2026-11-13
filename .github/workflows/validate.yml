@@ -28,6 +28,9 @@ jobs:
 
       - name: Check commit hygiene on the PR range
         if: github.event_name == 'pull_request'
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
         run: |
           # The changelog is derived from these messages — a bad one is a permanent bad release note.
           bad=0
@@ -37,5 +40,5 @@ jobs:
               echo "::error::not a Conventional Commit: $subject"
               bad=1
             fi
-          done < <(git rev-list ${{ github.event.pull_request.base.sha }}..HEAD)
+          done < <(git rev-list "$PR_BASE_SHA..$PR_HEAD_SHA")
           exit $bad
